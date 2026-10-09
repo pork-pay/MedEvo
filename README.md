@@ -1,10 +1,10 @@
 <div align="center">
 
-# MedEvo: Medical Reasoning Evolution<br>through Tag-Guided Navigation
+# MedEvo: Medical Reasoning Evolution<br>through Knowledge Navigation
 
 **Minimal teacher guidance · Student-led repair · Feedback-driven self-distillation**
 
-[📄 Paper](https://medevo-research.kakarot14.chatgpt.site/assets/medevo.pdf) · [🌐 Project website](https://medevo-research.kakarot14.chatgpt.site/)
+[📄 Paper](https://pork-pay.github.io/MedEvo/assets/medevo.pdf) · [🌐 Project website](https://pork-pay.github.io/MedEvo/)
 
 </div>
 
@@ -14,7 +14,7 @@ MedEvo improves medical multimodal reasoning by preserving the valid prefix of a
 
 The teacher localizes the error and suggests what to recheck. The **same student** generates the correction. Accepted student trajectories become supervision for self-distillation.
 
-![MedEvo method overview](https://medevo-research.kakarot14.chatgpt.site/assets/workflow.png)
+![MedEvo method overview](https://pork-pay.github.io/MedEvo/assets/workflow.png)
 
 ## How it works
 
@@ -62,7 +62,7 @@ All configurations share the same R1 checkpoint result.
 
 Type-guided suffix continuation reaches **71.80% repair success** and **67.22% post-training mean accuracy**, exceeding generic-hint continuation by 7.30 and 3.02 percentage points.
 
-![Repair ablation](https://medevo-research.kakarot14.chatgpt.site/assets/repair.png)
+![Repair ablation](https://pork-pay.github.io/MedEvo/assets/repair.png)
 
 ## Experimental setup
 
@@ -72,15 +72,15 @@ Type-guided suffix continuation reaches **71.80% repair success** and **67.22% p
 - **Training:** supervised fine-tuning from the fixed original checkpoint each round.
 - **Evaluation:** seven benchmarks evaluated with MenUniEval.
 
-The [paper](https://medevo-research.kakarot14.chatgpt.site/assets/medevo.pdf) includes training configuration, filtering thresholds, human audits, multi-seed results, taxonomy, prompts, and supplementary analyses.
+The [paper](https://pork-pay.github.io/MedEvo/assets/medevo.pdf) includes training configuration, filtering thresholds, human audits, multi-seed results, taxonomy, prompts, and supplementary analyses.
 
 ## Available materials
 
 | Material | Location |
 |---|---|
-| Full manuscript | [MedEvo.pdf](https://medevo-research.kakarot14.chatgpt.site/assets/medevo.pdf) |
-| Method and result walkthrough | [Project website](https://medevo-research.kakarot14.chatgpt.site/) |
-| Method figure | [method.png](https://medevo-research.kakarot14.chatgpt.site/assets/workflow.png) |
-| Repair comparison | [repair-ablation.png](https://medevo-research.kakarot14.chatgpt.site/assets/repair.png) |
+| Full manuscript | [MedEvo.pdf](https://pork-pay.github.io/MedEvo/assets/medevo.pdf) |
+| Method and result walkthrough | [Project website](https://pork-pay.github.io/MedEvo/) |
+| Method figure | [method.png](https://pork-pay.github.io/MedEvo/assets/workflow.png) |
+| Repair comparison | [repair-ablation.png](https://pork-pay.github.io/MedEvo/assets/repair.png) |
 
 This repository presents the paper, method, and reported results. Training and evaluation implementation is not included in this release.

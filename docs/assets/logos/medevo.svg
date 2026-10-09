@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="200" height="180" viewBox="100 0 200 180" role="img" aria-labelledby="title desc">
+<title id="title">MedEvo — integrated medical reasoning and suffix repair</title>
+<desc id="desc">The unchanged neural brain contains lungs inset into its left side. A purple reasoning prefix transitions to a teal repaired suffix at a marked boundary. All shapes are independently editable.</desc>
+<g id="composition" transform="translate(5 3) scale(0.94)">
+
+<g id="brain" inkscape:groupmode="layer" inkscape:label="02 Neural brain" fill="none" stroke="#287DB1" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
+  <path id="brain-outline" d="M153 60 C157 44 168 35 183 37 C191 23 210 20 223 30 C238 21 255 27 261 41 C278 40 289 53 287 70 C301 81 298 103 284 111 C279 115 275 115 271 115 C267 132 253 138 239 134 M209 135 C194 141 181 134 177 122 C165 122 156 118 152 111"/>
+  <path id="upper-left-neuron" d="M183 37 C196 39 204 48 206 61"/>
+  <path id="upper-middle-neuron" d="M223 30 C229 36 232 42 232 48 C241 46 250 49 257 53"/>
+  <path id="upper-right-neuron" d="M287 70 C287 76 283 79 279 81"/>
+  <path id="lower-neuron" d="M177 122 C189 124 195 116 205 116 C222 109 236 111 248 119"/>
+  <path id="lower-right-neuron" d="M209 135 C223 130 223 111 239 104 C250 99 260 100 271 103"/>
+  <g id="neural-nodes" fill="#287DB1" stroke="none">
+    <circle cx="206" cy="61" r="6.5"/><circle cx="232" cy="48" r="6.5"/><circle cx="257" cy="53" r="6.5"/><circle cx="279" cy="81" r="6.5"/>
+    <circle cx="205" cy="116" r="6.5"/><circle cx="248" cy="119" r="6.5"/><circle cx="271" cy="103" r="6.5"/>
+  </g>
+</g>
+<g id="lung-separation" transform="translate(100 18) scale(0.85)" inkscape:groupmode="layer" inkscape:label="Lung separation" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+  <path id="clearance-left-lung" d="M51 60 C42 60 30 80 29 104 C28 117 37 120 51 111 Q55 108 55 100 V66 Q55 60 51 60 Z" fill="#FFFFFF" stroke-width="12"/>
+  <path id="clearance-right-lung" d="M69 60 C78 60 89 80 90 104 C91 117 82 120 69 111 Q65 108 65 100 V66 Q65 60 69 60 Z" fill="#FFFFFF" stroke-width="12"/>
+  <path id="clearance-airway" d="M60 46 V69 M60 67 L48 82 M60 67 L72 82" fill="none" stroke-width="12"/>
+</g>
+<g id="medical-image" transform="translate(100 18) scale(0.85)" inkscape:groupmode="layer" inkscape:label="01 Chest image" stroke="#287DB1" stroke-linecap="round" stroke-linejoin="round">
+  <path id="left-lung" d="M51 60 C42 60 30 80 29 104 C28 117 37 120 51 111 Q55 108 55 100 V66 Q55 60 51 60 Z" fill="#E4F1FB" stroke-width="5"/>
+  <path id="right-lung" d="M69 60 C78 60 89 80 90 104 C91 117 82 120 69 111 Q65 108 65 100 V66 Q65 60 69 60 Z" fill="#E4F1FB" stroke-width="5"/>
+  <path id="airway" d="M60 46 V69 M60 67 L48 82 M60 67 L72 82" fill="none" stroke-width="4.5"/>
+</g>
+<g id="reasoning-connection" transform="translate(21 0)" inkscape:groupmode="layer" inkscape:label="03 Preserved prefix and repaired suffix" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path id="connection-clearance" d="M163 89 C176 75 187 78 199 87 C212 97 220 77 232 79" stroke="#FFFFFF" stroke-width="16"/>
+  <path id="preserved-prefix" d="M163 89 C176 75 187 78 199 87" stroke="#7A52A1" stroke-width="8"/>
+  <path id="repaired-suffix" d="M199 87 C212 97 220 77 232 79" stroke="#36A6BE" stroke-width="8"/>
+  <circle id="repair-boundary" cx="199" cy="87" r="3.2" fill="#FFFFFF" stroke="none"/>
+  <circle id="reasoning-node" cx="232" cy="79" r="6.5" fill="#36A6BE"/>
+</g>
+
+</g>
+</svg>
