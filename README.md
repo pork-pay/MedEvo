@@ -17,8 +17,7 @@
 </p>
 
 <p align="center">
-  <strong>Repair success is not learning value.</strong><br>
-  Independent feedback guides what the student learns next.<br>
+  <strong>Advancing medical reasoning through knowledge-guided self-improvement.</strong><br>
   <a href="https://pork-pay.github.io/MedEvo/#method">Explore the interactive walkthrough →</a>
 </p>
 

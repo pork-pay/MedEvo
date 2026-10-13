@@ -14,7 +14,7 @@ const sceneLayouts = {
     diagnosisPath: 'M655 177V159', rollbackPath: 'M803 230V259H550V227', hintPath: 'M510 299C510 272 550 264 550 229',
     targetPath: 'M1014 293C1123 293 1133 473 1094 473', dataPath: 'M894 473H813', basePath: 'M777 418V437',
     modelPath: 'M741 473H645', feedbackPath: 'M636 555V534Q636 520 610 520V507',
-    selectionPath: 'M576 473H560Q552 473 552 487V519H535', returnPath: 'M164 432V379H22V188H41',
+    selectionPath: 'M576 473H560Q552 473 552 487V519H535', returnPath: 'M30 473H17V188H41',
     freshPath: 'M309 205H820',
     localTitle: [30, 28], outerTitle: [30, 413], prefixLabel: [447, 169], wrongLabel: [940, 243],
     suffixLabel: [760, 338], modelLabel: [692, 453], datasetLabel: [994, 546], mapSignal: [566, 548],
@@ -100,7 +100,8 @@ function buildScene(c) {
     const xs = choices.map((_, i) => map.x + map.chipX + i * (map.chipW + map.gap));
     return `<g class="tag-row">${text(map.x + 18, y + map.rowH / 2 + (m ? 7 : 5), label, 'axis-label', 'start')}
       ${xs.map(x => `<rect x="${x}" y="${y}" width="${map.chipW}" height="${map.rowH}" rx="5" class="tag-chip"/>`).join('')}
-      <rect id="tag-focus-${row}" x="${xs[row === 3 ? 1 : 0]}" y="${y}" width="${map.chipW}" height="${map.rowH}" rx="5" class="tag-focus"/>
+      <rect id="tag-focus-${row}" x="${xs[row === 3 ? 1 : 0]}" y="${y}" width="${map.chipW}" height="${map.rowH}" rx="5" class="tag-focus" opacity="0"/>
+      <rect id="tag-focus-next-${row}" x="${xs[row === 3 ? 2 : 1]}" y="${y}" width="${map.chipW}" height="${map.rowH}" rx="5" class="tag-focus-next" opacity="0"/>
       ${choices.map((label, i) => text(xs[i] + map.chipW / 2, y + map.rowH / 2 + (m ? 7 : 5), label, 'tag-text')).join('')}</g>`;
   }).join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${c.w} ${c.h}" class="navigation-scene" role="group" aria-labelledby="scene-title scene-description" data-mobile="${m}">
@@ -140,6 +141,7 @@ function buildScene(c) {
 .navigation-scene .action-accent{fill:#e6f3f5;stroke:#4d95a5;stroke-width:1.7}
 .navigation-scene .subtype-dot{fill:#b6c5d2}.navigation-scene .active-subtype{fill:#8059a5}
 .navigation-scene .tag-chip{fill:#fff;stroke:#d7e3ed;stroke-width:1.1}.navigation-scene .tag-focus{fill:#e5f1fa;stroke:#5999c0;stroke-width:1.8}
+.navigation-scene .tag-focus-next{fill:#efe9f7;stroke:#916ab3;stroke-width:1.8}
 .navigation-scene .hint-shape{fill:#fff;stroke:#b8a7ca;stroke-width:1.5}.navigation-scene .sft{fill:#eaf4fb;stroke:#8aadc7;stroke-width:1.6}
 .navigation-scene .feedback-shape{fill:#f5f0f9;stroke:#ac93c2;stroke-width:1.4}.navigation-scene .feedback-bank{fill:#fbf9fd;stroke:#b49aca;stroke-width:1.4;stroke-dasharray:5 4}
 .navigation-scene .active-target{fill:#edf8f3;stroke:#6da797;stroke-width:1.5}.navigation-scene .ring{fill:none;stroke:#b97c70;stroke-width:1.8;stroke-dasharray:4 5}
@@ -157,39 +159,40 @@ ${[['blue', '#287db1'], ['violet', '#8059a5'], ['red', '#b58176']].map(([name, c
 ${text(...c.localTitle, 'LOCAL MEDICAL REPAIR', 'section-label', 'start')}
 <path d="M30 ${m ? 652 : 389}H${c.w - 30}" class="divider"/>
 ${text(...c.outerTitle, 'EVOLVING SUPERVISION', 'section-label outer-label', 'start')}
-<g id="outer-tracks">
+<g id="outer-tracks" opacity="0" aria-hidden="true">
 ${line('target-track', c.targetPath)}${line('data-track', c.dataPath)}${line('model-track', c.modelPath)}${line('feedback-track', c.feedbackPath)}${line('selection-track', c.selectionPath)}${line('return-track', c.returnPath)}${line('base-track', c.basePath)}
 </g>
 <g id="question" transform="translate(${qx} ${qy})">
 <rect x="${-qw / 2}" y="${-qh / 2}" width="${qw}" height="${qh}" rx="10" class="plain"/>
 ${text(0, m ? -72 : -52, m ? 'Training input' : 'Training question', m ? 'base' : 'small')}
+<g id="question-content" opacity="0">
 <g id="question-ct">${icon('ct', 0, m ? -22 : -15, m ? 74 : 66)}</g>
 <g id="question-histology">${icon('histology', 0, m ? -22 : -15, m ? 74 : 66)}</g>
 <g id="question-ecg">${icon('ecg', 0, m ? -22 : -15, m ? 74 : 66)}</g>
 ${text(0, m ? 42 : 37, 'CT', 'base', 'middle', 'context-modality')}
 ${text(0, m ? 70 : 59, 'Thorax', 'base', 'middle', 'context-anatomy')}
 <circle id="reinspection-ring" cx="${m ? 14 : 12}" cy="${m ? -20 : -13}" r="${m ? 14 : 12}" class="ring"/>
-</g>
+</g></g>
 ${text(qx, m ? 273 : 287, 'Observable context', 'small')}
 ${line('input-path', c.inputPath, 'draw-blue', 'arrow-blue')}
 <g id="student" transform="translate(${sx} ${sy})"><circle r="33" fill="#287db1"/>${text(0, 8, 'Mₜ', 'white', 'middle', 'student-model')}${text(0, 53, 'Student', 'small')}</g>
 <g id="trace-past">
+<g id="prefix-group" opacity="0">
 ${line('prefix-path', c.prefixPath, 'draw-violet')}
 ${c.prefix.map((p, i) => node(`prefix-${i}`, p, 'good')).join('')}
-${text(...c.prefixLabel, 'Supported prefix', 'good-label')}
-<g id="failed-branch">${line('wrong-path', c.wrongPath, 'draw-red')}${c.wrong.map((p, i) => node(`wrong-${i}`, p, 'bad', '<path d="M-6-6L6 6M6-6L-6 6" class="cross"/>')).join('')}</g>
+${text(...c.prefixLabel, 'Supported prefix', 'good-label', 'middle', 'prefix-label')}</g>
+<g id="failed-branch" opacity="0">${line('wrong-path', c.wrongPath, 'draw-red')}${c.wrong.map((p, i) => node(`wrong-${i}`, p, 'bad', '<path d="M-6-6L6 6M6-6L-6 6" class="cross"/>')).join('')}</g>
 ${text(...c.wrongLabel, m ? 'Failed suffix' : 'First error → failed suffix', 'bad-label', 'middle', 'failed-label')}
 <circle id="error-ring" cx="${c.wrong[0][0]}" cy="${c.wrong[0][1]}" r="30" class="ring"/>
 ${line('diagnosis-path', diagnosisRoute(c, 0), 'draw-violet', 'arrow-violet')}
 ${line('rollback-path', c.rollbackPath, 'rollback', 'arrow-red')}
 <path id="safe-boundary" d="${m ? `M${c.boundary[0] - 26} ${c.boundary[1]}h52` : `M${c.boundary[0]} ${c.boundary[1] - 25}v112`}" class="boundary"/>
-<g id="new-branch">${line('correct-path', c.correctPath, 'draw-blue')}${c.corrected.map((p, i) => node(`corrected-${i}`, p, 'repaired', i === c.corrected.length - 1 ? '<g id="screen-check">' + check + '</g>' : check)).join('')}</g>
-${m ? text(c.suffixLabel[0], 305, 'Same student', 'repair-label') + text(c.suffixLabel[0], 378, 'New suffix', 'repair-label') : text(...c.suffixLabel, 'Same student · new suffix', 'repair-label')}
-${text(c.corrected.at(-1)[0], c.corrected.at(-1)[1] + (m ? 51 : 43), m ? 'Candidate' : 'Candidate target', 'small', 'middle', 'target-status-label')}
+<g id="new-branch" opacity="0">${line('correct-path', c.correctPath, 'draw-blue')}${c.corrected.map((p, i) => i === c.corrected.length - 1 ? `<g id="candidate-target" opacity="0">${node(`corrected-${i}`, p, 'repaired', '<g id="screen-check">' + check + '</g>')}${text(p[0], p[1] + (m ? 51 : 43), m ? 'Candidate' : 'Candidate target', 'small', 'middle', 'target-status-label')}</g>` : node(`corrected-${i}`, p, 'repaired')).join('')}</g>
+<g id="repair-caption" opacity="0">${m ? text(c.suffixLabel[0], 305, 'Same student', 'repair-label') + text(c.suffixLabel[0], 378, 'New suffix', 'repair-label') : text(...c.suffixLabel, 'Same student · new suffix', 'repair-label')}</g>
 </g>
-<g id="trace-fresh">${line('fresh-path', c.freshPath, 'fresh-route')}${node('fresh-result', m ? [503, 278] : [849, 205], '', text(0, 8, '?', 'title'))}
+<g id="trace-fresh" opacity="0">${line('fresh-path', c.freshPath, 'fresh-route')}${node('fresh-result', m ? [503, 278] : [849, 205], '', text(0, 8, '?', 'title'))}
 ${text(...c.prefixLabel, 'Fresh rollout', 'good-label')}${text(...c.wrongLabel, m ? 'Diagnose again' : 'Diagnose the new rollout independently', 'small')}</g>
-<g id="case-action" transform="translate(${m ? 158 : 290} ${m ? 333 : 329})">
+<g id="case-action" opacity="0" transform="translate(${m ? 158 : 290} ${m ? 333 : 329})">
 <g id="action-visual">
   <rect x="${m ? -65 : -48}" y="-20" width="${m ? 69 : 51}" height="40" rx="6" class="plain"/>
   ${icon('ct', m ? -30 : -23, 0, 43)}
@@ -225,36 +228,39 @@ ${text(...c.prefixLabel, 'Fresh rollout', 'good-label')}${text(...c.wrongLabel, 
 ${text(book.x, book.y, 'Fixed error codebook', 'book-title', 'start')}${text(book.x + book.w, book.y, m ? '20 subtypes' : '4 families · 20 subtypes', 'small', 'end')}
 ${families.map((family, i) => {
   const x = book.x + i * (cellW + book.gap), center = x + cellW / 2;
-  return `<g id="error-family-${i}" class="family-control" data-case="${i}" role="button" tabindex="0" aria-pressed="${i === 0}" aria-label="Play Case ${i + 1}: ${errorScenarios[i].name}"><title>Play Case ${i + 1}: ${errorScenarios[i].name} (${errorScenarios[i].code})</title><rect id="error-card-${i}" x="${x}" y="${book.cellY}" width="${cellW}" height="${book.cellH}" rx="7" class="family-card"/>
+  return `<g id="error-family-${i}" class="family-control" data-case="${i}" role="button" tabindex="0" aria-pressed="${i === 0}" aria-label="Play case ${i + 1}: ${errorScenarios[i].name.toLowerCase()}"><title>Play case ${i + 1}: ${errorScenarios[i].name.toLowerCase()} (${errorScenarios[i].code})</title><rect id="error-card-${i}" x="${x}" y="${book.cellY}" width="${cellW}" height="${book.cellH}" rx="7" class="family-card"/><rect id="diagnosis-highlight-${i}" x="${x}" y="${book.cellY}" width="${cellW}" height="${book.cellH}" rx="7" class="family-active" opacity="0" pointer-events="none"/>
     ${family.title.map((s, j) => text(center, book.cellY + (m ? 29 : 24) + j * (m ? 26 : 20), s, 'family-name')).join('')}
     ${family.operation.map((s, j) => text(center, book.cellY + (m ? 88 : 72) + j * (m ? 22 : 17), m && i === 2 ? 'Compare' : s, 'family-operation')).join('')}
-    ${Array.from({ length: 5 }, (_, k) => `<circle id="subtype-${i}-${k}" cx="${center + (k - 2) * (m ? 13 : 10)}" cy="${book.cellY + book.cellH - 11}" r="${m ? 2.8 : 2.1}" class="subtype-dot"/>`).join('')}</g>`;
+    ${Array.from({ length: 5 }, (_, k) => `<circle id="subtype-${i}-${k}" cx="${center + (k - 2) * (m ? 13 : 10)}" cy="${book.cellY + book.cellH - 11}" r="${m ? 2.8 : 2.1}" class="subtype-dot"/>`).join('')}<circle id="active-subtype-${i}" cx="${center + (errorScenarios[i].subtype - 2) * (m ? 13 : 10)}" cy="${book.cellY + book.cellH - 11}" r="${m ? 2.8 : 2.1}" class="active-subtype" opacity="0" pointer-events="none"/></g>`;
 }).join('')}
 </g>
-<g id="hint" transform="translate(${xy(c.hint)})"><rect id="hint-box" x="${m ? -160 : -116}" y="${m ? -23 : -20}" width="${m ? 320 : 232}" height="${m ? 46 : 40}" rx="7" class="hint-shape"/>
+<g id="hint" opacity="0" transform="translate(${xy(c.hint)})"><rect id="hint-box" x="${m ? -160 : -116}" y="${m ? -23 : -20}" width="${m ? 320 : 232}" height="${m ? 46 : 40}" rx="7" class="hint-shape"/>
 ${text(0, m ? 7 : 5, 'Answer-free recovery cue', 'base', 'middle', 'hint-operation')}${text(0, m ? 46 : 40, 'Gold-blind auditor', 'small')}</g>
 ${line('hint-path', c.hintPath, 'draw-violet', 'arrow-violet')}
+<g id="dataset-stage" opacity="0">
 <g id="dataset" transform="translate(${dx} ${dy})">
 <rect x="${m ? -84 : -100}" y="${m ? -54 : -46}" width="${m ? 168 : 200}" height="${m ? 108 : 92}" rx="10" class="panel"/>
 ${[-1, 0, 1].map((offset, i) => `<g transform="translate(${offset * (m ? 49 : 60)} 0)"><rect x="${m ? -22 : -26}" y="${m ? -38 : -34}" width="${m ? 44 : 52}" height="${m ? 76 : 68}" rx="6" class="plain"/>${icon(['ct', 'histology', 'ecg'][i], 0, -4, m ? 40 : 46)}${text(0, m ? 30 : 26, (m ? ['CT', 'Hist.', 'ECG'] : ['CT', 'Tissue', 'ECG'])[i], m ? 'tag-text' : 'small')}</g>`).join('')}
 <g id="new-target" transform="translate(${m ? -49 : -60} 0)"><rect x="${m ? -22 : -26}" y="${m ? -38 : -34}" width="${m ? 44 : 52}" height="${m ? 76 : 68}" rx="6" class="active-target"/><use id="target-medical-icon" href="#medical-ct" x="${m ? -20 : -23}" y="${m ? -24 : -27}" width="${m ? 40 : 46}" height="${m ? 40 : 46}"/><g transform="translate(0 ${m ? 27 : 24})">${check}</g></g>
 </g>
 ${m ? text(...c.datasetLabel, 'Medical', 'title') + text(c.datasetLabel[0], c.datasetLabel[1] + 28, 'supervision', 'title') : text(...c.datasetLabel, 'Medical supervision', 'title')}
-${text(dx, m ? 866 : 570, '≤1 target / question', 'small')}
+${text(dx, m ? 866 : 570, '≤1 target / question', 'small')}</g>
 ${line('target-path', c.targetPath, 'draw-blue', 'arrow-blue')}${line('data-path', c.dataPath, 'draw-blue', 'arrow-blue')}
-${text((dx + tx) / 2, dy - 20, 'Dₜ₊₁', 'base')}
+${text((dx + tx) / 2, dy - 20, 'Dₜ₊₁', 'base', 'middle', 'dataset-output-label')}
+<g id="training-stage" opacity="0">
 <g id="training" transform="translate(${tx} ${ty})"><circle r="35" class="sft"/>${text(0, 7, 'SFT', 'title')}</g>
 <g id="base-model" transform="translate(${xy(c.base)})"><rect x="${m ? -88 : -67}" y="${m ? -22 : -19}" width="${m ? 176 : 134}" height="${m ? 44 : 38}" rx="6" class="plain"/>${text(0, m ? 7 : 5, 'Same base M₀', 'base')}</g>
-${line('base-path', c.basePath, 'draw-blue', 'arrow-blue')}${line('model-path', c.modelPath, 'draw-blue', 'arrow-blue')}${text(...c.modelLabel, 'Mₜ₊₁', 'base')}
-<g id="evaluation" transform="translate(${ex} ${ey})"><circle r="34" class="feedback-shape"/>${text(0, 7, m ? 'Eval.' : 'Assess', 'base')}${text(0, m ? 57 : -57, m ? 'Capability' : 'Capability assessment', m ? 'base' : 'small')}</g>
-<g id="feedback" transform="translate(${xy(c.feedback)})"><rect x="${m ? -85 : -76}" y="-28" width="${m ? 170 : 152}" height="56" rx="7" class="feedback-bank"/>
-${text(0, m ? -4 : -5, 'Fixed feedback', m ? 'tag-text' : 'base')}${text(0, m ? 20 : 16, 'Assessment only', 'small')}</g>
+</g>
+${line('base-path', c.basePath, 'draw-blue', 'arrow-blue')}${line('model-path', c.modelPath, 'draw-blue', 'arrow-blue')}${text(...c.modelLabel, 'Mₜ₊₁', 'base', 'middle', 'model-output-label')}
+<g id="evaluation-stage" opacity="0"><g id="evaluation" transform="translate(${ex} ${ey})"><circle r="34" class="feedback-shape"/>${text(0, 7, m ? 'Eval.' : 'Assess', 'base')}${m ? '' : text(0, -57, 'Capability assessment', 'small')}</g></g>
+<g id="feedback-stage" opacity="0"><g id="feedback" transform="translate(${xy(c.feedback)})"><rect x="${m ? -85 : -76}" y="-28" width="${m ? 170 : 152}" height="56" rx="7" class="feedback-bank"/>
+${text(0, m ? -4 : -5, 'Fixed feedback', m ? 'tag-text' : 'base')}${text(0, m ? 20 : 16, 'Assessment only', 'small')}</g></g>
 ${line('feedback-path', c.feedbackPath, 'draw-violet', 'arrow-violet')}
 <g id="capability-map"><rect x="${map.x}" y="${map.y}" width="${map.w}" height="${map.h}" rx="10" class="panel"/>
 ${text(map.x + 18, map.y + (m ? 29 : 25), 'Medical capability map', 'title', 'start')}${text(map.x + map.w - 16, map.y + (m ? 28 : 24), 'Fixed axes', 'small', 'end')}
 ${mapRows}${text(map.x + map.w / 2, map.y + map.h - (m ? 16 : 15), 'Disease labels stay in planning.', 'small')}</g>
 ${line('selection-path', c.selectionPath, 'draw-violet', 'arrow-violet')}${line('return-path', c.returnPath, 'draw-violet', 'arrow-violet')}
-${m ? '' : text(80, 365, 'Next training question', 'small', 'start')}
+<g id="next-question-label" opacity="0">${m ? '' : text(36, 379, 'Next training question', 'small', 'start')}</g>
 <g id="repair-packet"><rect x="${m ? -10 : -16}" y="${m ? -12 : -18}" width="${m ? 20 : 32}" height="${m ? 24 : 36}" rx="4" class="active-target"/><use id="repair-packet-icon" href="#medical-ct" x="${m ? -9 : -14}" y="${m ? -10 : -16}" width="${m ? 18 : 28}" height="${m ? 18 : 28}"/><path d="M4 6l3 3 5-6" class="check"/></g>
 <circle id="learning-packet" r="5" class="marker-blue"/><circle id="base-packet" r="5" class="marker-blue"/>
 <circle id="feedback-packet" r="5" class="marker-violet"/>
@@ -269,7 +275,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const narrowScreen = window.matchMedia('(max-width: 640px)');
 const caseDuration = 12000;
 const duration = caseDuration * errorScenarios.length;
-const stageSeeks = [2550, 5250, 8550, 10650];
+const stageSeeks = [2700, 5700, 8925, 11000];
 const stageTitles = [
   'Medical error diagnosis',
   'Knowledge-guided trajectory repair',
@@ -291,17 +297,24 @@ const clamp = x => Math.max(0, Math.min(1, x));
 const between = (t, start, end) => clamp((t - start) / (end - start));
 const ease = x => x * x * (3 - 2 * x);
 const opacity = (id, value) => elements[id].setAttribute('opacity', String(clamp(value)));
-function draw(id, progress) {
+function draw(id, progress, visibility = 1) {
   const n = pathLengths[id];
   elements[id].style.strokeDasharray = `${n} ${n}`;
   elements[id].style.strokeDashoffset = String(n * (1 - clamp(progress)));
   const arrow = elements[id].dataset.arrow;
-  if (arrow) elements[id].style.markerEnd = progress >= .98 ? `url(#${arrow})` : 'none';
+  opacity(id, progress > 0 ? visibility : 0);
+  if (arrow) elements[id].style.markerEnd = progress >= 1 ? `url(#${arrow})` : 'none';
 }
 function travel(id, pathId, progress, visible = true) {
   const point = elements[pathId].getPointAtLength(pathLengths[pathId] * clamp(progress));
   elements[id].setAttribute('transform', `translate(${point.x} ${point.y})`);
-  opacity(id, visible ? 1 : 0);
+  opacity(id, Number(visible));
+}
+function nodeOnPath(id, progress, positions, index, axis) {
+  // The trace nodes lie on each path's final straight segment.
+  const length = pathLengths[id];
+  const distance = length - Math.abs(positions.at(-1)[axis] - positions[index][axis]);
+  return progress > 0 ? ease(clamp((length * progress - distance + 22) / 22)) : 0;
 }
 function mountScene() {
   layout = narrowScreen.matches ? sceneLayouts.mobile : sceneLayouts.desktop;
@@ -333,11 +346,19 @@ function render(ms) {
   const caseIndex = Math.min(errorScenarios.length - 1, Math.floor(time / caseDuration));
   const scenario = errorScenarios[caseIndex];
   const localTime = time - caseIndex * caseDuration;
-  // Reuse the reviewed 16-second lifecycle at a compact 12-second case pace.
   const t = localTime * 16000 / caseDuration;
   const phase = Math.min(3, Math.floor(t / 4000));
-  const fresh = t >= 15400;
-  const diagnosis = t >= 2950 && !fresh;
+  const rise = (start, end) => ease(between(t, start, end));
+  const fall = (start, end) => 1 - rise(start, end);
+  const packet = (start, end, linger = 150) => rise(start, start + 150) * fall(end, end + linger);
+  const entrance = rise(0, 400);
+  const caseExit = fall(15700, 15980);
+  const localPresence = fall(14800, 15100);
+  const outerPresence = fall(15200, 15950);
+  const fresh = t >= 15100;
+  const diagnosis = t >= 3250 && !fresh;
+  const diagnosisPresence = rise(3250, 3500) * localPresence;
+  const contentPresence = entrance * caseExit * (fresh ? rise(15100, 15400) : localPresence);
   const stageKey = caseIndex * 4 + phase;
   if (mountedCase !== caseIndex) {
     elements['diagnosis-path'].setAttribute('d', diagnosisRoute(layout, caseIndex));
@@ -346,6 +367,11 @@ function render(ms) {
     elements['repair-packet-icon'].setAttribute('href', `#medical-${scenario.icon}`);
     elements['question-packet-icon'].setAttribute('href', `#medical-${modalityIcons[scenario.next[0]]}`);
     elements['new-target'].setAttribute('transform', `translate(${(scenario.tags[0] - 1) * (layout.mobile ? 49 : 60)} 0)`);
+    scenario.tags.forEach((start, row) => {
+      const cellX = index => layout.map.x + layout.map.chipX + index * (layout.map.chipW + layout.map.gap);
+      elements[`tag-focus-${row}`].setAttribute('x', String(cellX(start)));
+      elements[`tag-focus-next-${row}`].setAttribute('x', String(cellX(scenario.next[row])));
+    });
     caseStatus.textContent = `Case ${caseIndex + 1}/4 · Schematic`;
     caseSummary.textContent = `${scenario.code} · ${scenario.summary}`;
     mountedCase = caseIndex;
@@ -362,22 +388,53 @@ function render(ms) {
   const context = fresh ? scenario.next : scenario.tags;
   animationHost.dataset.context = `${modalityNames[context[0]]}-${anatomyNames[context[1]]}`.toLowerCase();
   progressBar.style.transform = `scaleX(${localTime / caseDuration})`;
+
+  // Frames, taxonomy and tag labels stay in place across the case seam.
+  opacity('outer-tracks', 0);
+  opacity('question-content', contentPresence);
   modalityIcons.forEach((name, index) => opacity(`question-${name}`, context[0] === index ? 1 : 0));
   elements['context-modality'].textContent = modalityNames[context[0]];
   elements['context-anatomy'].textContent = anatomyNames[context[1]];
   elements['student-model'].textContent = fresh ? 'Mₜ₊₁' : 'Mₜ';
   elements['student-model'].style.fontSize = fresh ? (layout.mobile ? '22px' : '21px') : '';
-  const recovery = ease(between(t, 4200, 6100));
-  opacity('reinspection-ring', caseIndex === 0 && t >= 4300 && t < 6200 ? 1 : 0);
-  opacity('case-action', fresh ? 0 : 1);
+  opacity('student-model', contentPresence);
   errorScenarios.forEach((entry, index) => {
-    opacity(`action-${entry.key}`, index === caseIndex ? 1 : 0);
     elements[`error-family-${index}`].setAttribute('aria-pressed', String(index === caseIndex));
-    elements[`error-card-${index}`].setAttribute('class', `family-card${index === caseIndex ? ' family-selected' : ''}${diagnosis && index === caseIndex ? ' family-active' : ''}`);
-    for (let subtype = 0; subtype < 5; subtype++) {
-      elements[`subtype-${index}-${subtype}`].setAttribute('class', diagnosis && index === caseIndex && subtype === entry.subtype ? 'subtype-dot active-subtype' : 'subtype-dot');
-    }
+    elements[`error-card-${index}`].setAttribute('class', `family-card${index === caseIndex ? ' family-selected' : ''}`);
+    opacity(`diagnosis-highlight-${index}`, index === caseIndex ? diagnosisPresence : 0);
+    opacity(`active-subtype-${index}`, index === caseIndex ? diagnosisPresence : 0);
+    opacity(`action-${entry.key}`, index === caseIndex ? 1 : 0);
   });
+
+  // A trace is built before it is diagnosed; its labels follow the corresponding nodes.
+  opacity('trace-past', localPresence);
+  opacity('trace-fresh', rise(15100, 15400) * caseExit);
+  opacity('prefix-group', rise(250, 500));
+  const prefixProgress = rise(400, 1400);
+  draw('prefix-path', prefixProgress);
+  layout.prefix.forEach((_, i) => opacity(`prefix-${i}`, nodeOnPath('prefix-path', prefixProgress, layout.prefix, i, 0)));
+  opacity('prefix-label', rise(1250, 1500));
+  opacity('failed-branch', rise(1500, 1800) * (.13 + .87 * fall(4350, 4800)));
+  const wrongProgress = rise(1500, 2250);
+  draw('wrong-path', wrongProgress);
+  layout.wrong.forEach((_, i) => opacity(`wrong-${i}`, nodeOnPath('wrong-path', wrongProgress, layout.wrong, i, layout.mobile ? 1 : 0)));
+  opacity('failed-label', rise(2250, 2500));
+  elements['failed-label'].textContent = t < 4350 ? (layout.mobile ? 'Failed suffix' : 'First error → failed suffix') : 'Discarded suffix';
+  opacity('error-ring', rise(2500, 2700) * fall(4350, 4650));
+  draw('diagnosis-path', rise(2550, 3250), fall(3950, 4350));
+  const rollback = rise(3350, 4350);
+  draw('rollback-path', rollback, fall(4350, 4700));
+  travel('rollback-packet', 'rollback-path', rollback, packet(3350, 4350) * fall(4350, 4700) * localPresence);
+  opacity('safe-boundary', rise(3350, 3650));
+
+  const guidancePresence = rise(4000, 4300) * localPresence;
+  opacity('hint', guidancePresence);
+  opacity('case-action', guidancePresence);
+  elements['hint-operation'].textContent = fresh ? 'Answer-free recovery cue' : scenario.cue;
+  elements['hint-box'].style.fill = t < 7900 ? '#f1eaf8' : '#fff';
+  draw('hint-path', rise(4400, 5200), fall(6600, 7000) * localPresence);
+  const recovery = rise(4400, 6200);
+  opacity('reinspection-ring', caseIndex === 0 ? rise(4400, 4600) * fall(6200, 6500) : 0);
   elements['action-lens'].setAttribute('transform', `translate(${-recovery * (layout.mobile ? 38 : 28)} ${Math.sin(recovery * Math.PI) * -8})`);
   elements['evidence-left'].setAttribute('transform', `translate(${recovery * (layout.mobile ? 13 : 5)} 0)`);
   elements['evidence-right'].setAttribute('transform', `translate(${-recovery * (layout.mobile ? 13 : 5)} 0)`);
@@ -389,55 +446,62 @@ function render(ms) {
   opacity('rule-category', recovery);
   elements['rule-category'].setAttribute('transform', `translate(0 ${-12 * (1 - recovery)})`);
   opacity('rule-linked', recovery);
-  opacity('trace-past', fresh ? 0 : 1);
-  opacity('trace-fresh', fresh ? 1 : 0);
-  draw('prefix-path', between(t, 250, 1150));
-  layout.prefix.forEach((_, i) => opacity(`prefix-${i}`, between(t, 450 + i * 360, 750 + i * 360)));
-  draw('wrong-path', between(t, 1150, 2050));
-  opacity('failed-branch', t < 4000 ? between(t, 1150, 1900) : .13 + .87 * (1 - between(t, 4000, 4750)));
-  elements['failed-label'].textContent = t < 4000 ? (layout.mobile ? 'Failed suffix' : 'First error → failed suffix') : 'Discarded suffix';
-  opacity('error-ring', t >= 2050 && t < 4400 ? 1 : 0);
-  draw('diagnosis-path', between(t, 2100, 2950));
-  opacity('diagnosis-path', t < 4250 ? 1 : 0);
-  draw('rollback-path', between(t, 3300, 4550));
-  opacity('rollback-path', t < 4800 ? 1 : 0);
-  travel('rollback-packet', 'rollback-path', ease(between(t, 3300, 4550)), t > 3300 && t < 4550);
-  opacity('safe-boundary', t >= 3300 && !fresh ? 1 : 0);
-  elements['hint-operation'].textContent = t >= 4000 && !fresh ? scenario.cue : 'Answer-free recovery cue';
-  elements['hint-box'].style.fill = t >= 4000 && t < 7900 ? '#f1eaf8' : '#fff';
-  draw('hint-path', between(t, 4200, 5000));
-  opacity('hint-path', t >= 4000 && t < 7600 ? 1 : 0);
-  draw('correct-path', between(t, 5050, 6950));
-  opacity('new-branch', t >= 4900 ? 1 : 0);
-  layout.corrected.forEach((_, i) => opacity(`corrected-${i}`, between(t, 5100 + i * 650, 5600 + i * 650)));
-  opacity('screen-check', between(t, 7700, 8250));
-  elements['target-status-label'].textContent = t >= 8250 ? (layout.mobile ? 'Screened' : 'Screened target') : (layout.mobile ? 'Candidate' : 'Candidate target');
-  opacity('target-track', fresh ? 0 : 1);
-  opacity('target-path', fresh ? 0 : 1);
-  const admission = between(t, 8350, 9700);
-  draw('target-path', admission);
-  travel('repair-packet', 'target-path', ease(admission), t >= 8350 && t < 9700);
-  opacity('new-target', between(t, 9500, 9800));
-  draw('data-path', between(t, 10000, 10750));
-  draw('base-path', between(t, 10300, 11000));
-  draw('model-path', between(t, 11000, 11800));
-  travel('base-packet', 'base-path', ease(between(t, 10300, 11000)), t >= 10300 && t < 11000);
-  if (t < 11000) travel('learning-packet', 'data-path', ease(between(t, 10000, 10750)), t >= 10000 && t < 10750);
-  else travel('learning-packet', 'model-path', ease(between(t, 11000, 11800)), t >= 11000 && t < 11800);
-  draw('feedback-path', between(t, 12000, 12600));
-  draw('selection-path', between(t, 12600, 13400));
-  if (t < 12600) travel('feedback-packet', 'feedback-path', ease(between(t, 12000, 12600)), t >= 12000 && t < 12600);
-  else travel('feedback-packet', 'selection-path', ease(between(t, 12600, 13400)), t >= 12600 && t < 13400);
-  const focus = ease(between(t, 13300, 14200));
-  const initial = scenario.tags, next = scenario.next;
-  initial.forEach((start, row) => {
-    const position = start + (next[row] - start) * focus;
-    elements[`tag-focus-${row}`].setAttribute('x', String(layout.map.x + layout.map.chipX + position * (layout.map.chipW + layout.map.gap)));
-    elements[`tag-focus-${row}`].style.fill = focus > .5 ? '#efe9f7' : '#e5f1fa';
-    elements[`tag-focus-${row}`].style.stroke = focus > .5 ? '#916ab3' : '#5999c0';
+
+  opacity('new-branch', rise(5250, 5500));
+  opacity('repair-caption', rise(5300, 5700));
+  const correctProgress = rise(5300, 7200);
+  draw('correct-path', correctProgress);
+  layout.corrected.forEach((_, i) => {
+    const last = i === layout.corrected.length - 1;
+    opacity(`corrected-${i}`, last ? 1 : nodeOnPath('correct-path', correctProgress, layout.corrected, i, layout.mobile ? 1 : 0));
   });
-  draw('return-path', between(t, 14300, 15400));
-  travel('question-packet', 'return-path', ease(between(t, 14300, 15400)), t >= 14300 && t < 15400);
+  const candidatePresence = rise(7200, 7450) * localPresence;
+  opacity('candidate-target', rise(7200, 7450));
+  const screened = t >= 8250 && !fresh;
+  opacity('screen-check', screened ? rise(8250, 8500) : 0);
+  elements['target-status-label'].textContent = screened ? (layout.mobile ? 'Screened' : 'Screened target') : (layout.mobile ? 'Candidate' : 'Candidate target');
+
+  // Each connector waits until both components exist. Admission follows the completed screen.
+  const datasetPresence = rise(8250, 8550) * outerPresence;
+  const trainingPresence = rise(10050, 10400) * outerPresence;
+  const evaluationPresence = rise(10950, 11200) * outerPresence;
+  const feedbackPresence = rise(12000, 12300) * outerPresence;
+  opacity('dataset-stage', datasetPresence);
+  opacity('training-stage', trainingPresence);
+  opacity('evaluation-stage', evaluationPresence);
+  opacity('feedback-stage', feedbackPresence);
+  opacity('new-target', rise(9800, 10050));
+  const admission = rise(8650, 9800);
+  draw('target-path', admission, Math.min(candidatePresence, datasetPresence));
+  travel('repair-packet', 'target-path', admission, packet(8650, 9800, 250) * Math.min(candidatePresence, datasetPresence));
+  const dataFlow = rise(10450, 11100);
+  const baseFlow = rise(10450, 11050);
+  const modelFlow = rise(11250, 11850);
+  draw('data-path', dataFlow, Math.min(datasetPresence, trainingPresence));
+  draw('base-path', baseFlow, trainingPresence);
+  draw('model-path', modelFlow, Math.min(trainingPresence, evaluationPresence));
+  opacity('dataset-output-label', rise(10450, 10700) * outerPresence);
+  opacity('model-output-label', rise(11300, 11550) * outerPresence);
+  travel('base-packet', 'base-path', baseFlow, packet(10450, 11050) * trainingPresence);
+  if (t < 11250) travel('learning-packet', 'data-path', dataFlow, packet(10450, 11100) * Math.min(datasetPresence, trainingPresence));
+  else travel('learning-packet', 'model-path', modelFlow, packet(11250, 11850) * Math.min(trainingPresence, evaluationPresence));
+
+  const assessment = rise(12350, 12900);
+  const selection = rise(13000, 13700);
+  draw('feedback-path', assessment, Math.min(feedbackPresence, evaluationPresence));
+  draw('selection-path', selection, evaluationPresence);
+  if (t < 13000) travel('feedback-packet', 'feedback-path', assessment, packet(12350, 12900, 100) * Math.min(feedbackPresence, evaluationPresence));
+  else travel('feedback-packet', 'selection-path', selection, packet(13000, 13700) * evaluationPresence);
+  const focus = rise(13700, 14000);
+  scenario.tags.forEach((_, row) => {
+    opacity(`tag-focus-${row}`, (1 - focus) * entrance * caseExit);
+    opacity(`tag-focus-next-${row}`, focus * entrance * caseExit);
+  });
+  // The return route is established before the next question travels along it.
+  const returnPresence = fall(15150, 15500);
+  draw('return-path', rise(14100, 14600), returnPresence);
+  travel('question-packet', 'return-path', rise(14300, 15100), packet(14300, 15100, 200) * returnPresence);
+  opacity('next-question-label', rise(14000, 14300) * returnPresence);
   playButton.textContent = playing ? 'Pause' : 'Play';
   playButton.setAttribute('aria-label', playing ? 'Pause the evolution schematic' : 'Play the evolution schematic');
   playButton.setAttribute('aria-pressed', String(playing));
