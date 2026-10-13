@@ -115,3 +115,16 @@ details{border-top:1px solid var(--line);margin-top:23px}summary{list-style:none
 }
 
 main > section:not(.evolution) :is(p, h2, h3, h4, summary) { font-family: "Google Sans Flex", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+/* Four-case medical-repair walkthrough. */
+.hero .thesis strong { font-weight: 700; color: #244b67; }
+.case-summary { margin: 5px 27px 15px; max-width: 940px; font-size: 15px; line-height: 1.6; color: #526a7a; }
+#case-status { white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) {
+  .animation-heading { gap: 10px; flex-wrap: wrap; }
+  .case-summary { margin: 1px 17px 12px; font-size: 13px; line-height: 1.55; min-height: 60px; }
+}
+
+.animation-controls { flex-wrap: wrap; row-gap: 4px; }
+.case-control-hint { flex-basis: 100%; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; text-align: right; }
+@media (max-width: 640px) { .case-control-hint { font-size: 12px; text-align: center; } }

@@ -4,12 +4,6 @@
 
 <h1><img src="docs/assets/logos/medevo.svg" height="36" align="middle" alt=""> MedEvo: Medical Reasoning Evolution<br>through Knowledge Navigation</h1>
 
-<p>Xiaoliang&nbsp;Wang<sup>1,2*</sup>, Zhuo&nbsp;Chen<sup>2*</sup>, Chuanyang&nbsp;Zheng<sup>2</sup>, Quanbin&nbsp;Wang<sup>2</sup>, Jiangwei&nbsp;Lao<sup>2</sup>, Yingao&nbsp;Liu<sup>2</sup>,<br>
-Jiajia&nbsp;Liu<sup>2</sup>, Jinming&nbsp;Cao<sup>2</sup>, Honglin&nbsp;Lin<sup>3,4</sup>, Zhihong&nbsp;Lu<sup>2</sup>, Hao&nbsp;Jin<sup>1</sup>, Jian&nbsp;Wang<sup>2</sup>, Lijun&nbsp;Wu<sup>2,3†</sup></p>
-
-<p><sub><sup>1</sup>&nbsp;Zhejiang&nbsp;University &nbsp;·&nbsp; <sup>2</sup>&nbsp;Ant&nbsp;Group &nbsp;·&nbsp; <sup>3</sup>&nbsp;Shanghai&nbsp;Artificial&nbsp;Intelligence&nbsp;Laboratory &nbsp;·&nbsp; <sup>4</sup>&nbsp;Shanghai&nbsp;Jiao&nbsp;Tong&nbsp;University<br>
-<sup>*</sup> Equal contribution &nbsp;·&nbsp; <sup>†</sup> Corresponding author</sub></p>
-
 [![Paper](https://img.shields.io/badge/Paper-PDF-b31b1b.svg)](docs/assets/medevo.pdf)
 [![Website](https://img.shields.io/badge/Website-MedEvo-287DB1.svg)](https://pork-pay.github.io/MedEvo/)
 [![GitHub stars](https://img.shields.io/github/stars/pork-pay/MedEvo?style=social)](https://github.com/pork-pay/MedEvo/stargazers)
