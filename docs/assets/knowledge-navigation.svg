@@ -53,7 +53,7 @@
 <path d="M30 389H1130" class="divider"/>
 <text x="30" y="413" class="section-label outer-label" text-anchor="start">EVOLVING SUPERVISION</text>
 <g id="outer-tracks">
-<path id="target-track" d="M1014 293C1123 293 1133 473 1094 473" class="route " fill="none" opacity="1"/><path id="data-track" d="M894 473H813" class="route " fill="none"/><path id="model-track" d="M741 473H645" class="route " fill="none"/><path id="feedback-track" d="M636 555V534Q636 520 610 520V507" class="route " fill="none"/><path id="selection-track" d="M576 473H560Q552 473 552 487V519H543" class="route " fill="none"/><path id="return-track" d="M164 432V379H22V188H29" class="route " fill="none"/><path id="base-track" d="M777 418V437" class="route " fill="none"/>
+<path id="target-track" d="M1014 293C1123 293 1133 473 1094 473" class="route " fill="none" opacity="1"/><path id="data-track" d="M894 473H813" class="route " fill="none"/><path id="model-track" d="M741 473H645" class="route " fill="none"/><path id="feedback-track" d="M636 555V534Q636 520 610 520V507" class="route " fill="none"/><path id="selection-track" d="M576 473H560Q552 473 552 487V519H543" class="route " fill="none"/><path id="return-track" d="M164 432V379H22V188H41" class="route " fill="none"/><path id="base-track" d="M777 418V437" class="route " fill="none"/>
 </g>
 <g id="question" transform="translate(114 188)">
 <rect x="-84" y="-77" width="168" height="154" rx="10" class="plain"/>
@@ -67,7 +67,7 @@
 </g>
 <text x="114" y="287" class="small" text-anchor="middle">Observable context</text>
 <path id="input-path" d="M198 205H241" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)"/>
-<g id="student" transform="translate(275 205)"><circle r="33" fill="#287db1"/><text id="student-model" x="0" y="8" class="white" text-anchor="middle">Mₜ</text><text x="0" y="53" class="small" text-anchor="middle">Student</text></g>
+<g id="student" transform="translate(275 205)"><circle r="33" fill="#287db1"/><text id="student-model" x="0" y="8" class="white" text-anchor="middle" style="">Mₜ</text><text x="0" y="53" class="small" text-anchor="middle">Student</text></g>
 <g id="trace-past" opacity="1">
 <path id="prefix-path" d="M309 205H502" class="route draw-violet" fill="none" style="stroke-dasharray: 193, 193; stroke-dashoffset: 0;"/>
 <g id="prefix-0" transform="translate(393 205)" opacity="1"><circle r="22" class="node good"/><path d="M-7 0l5 5 10-11" class="check"/></g><g id="prefix-1" transform="translate(502 205)" opacity="1"><circle r="22" class="node good"/><path d="M-7 0l5 5 10-11" class="check"/></g>
@@ -150,7 +150,7 @@
 <g id="evaluation" transform="translate(610 473)"><circle r="34" class="feedback-shape"/><text x="0" y="7" class="base" text-anchor="middle">Assess</text><text x="0" y="-57" class="small" text-anchor="middle">Capability assessment</text></g>
 <g id="feedback" transform="translate(636 583)"><rect x="-76" y="-28" width="152" height="56" rx="7" class="feedback-bank"/>
 <text x="0" y="-5" class="base" text-anchor="middle">Fixed feedback</text><text x="0" y="16" class="small" text-anchor="middle">Assessment only</text></g>
-<path id="feedback-path" d="M636 555V534Q636 520 610 520V507" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 67.0444, 67.0444; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);"/><path id="selection-path" d="M576 473H560Q552 473 552 487V519H543" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 75.1186, 75.1186; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);"/>
+<path id="feedback-path" d="M636 555V534Q636 520 610 520V507" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 67.0444, 67.0444; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);"/>
 <g id="capability-map"><rect x="30" y="432" width="512" height="223" rx="10" class="panel"/>
 <text x="48" y="457" class="title" text-anchor="start">Medical capability map</text><text x="526" y="456" class="small" text-anchor="end">Fixed axes</text>
 <g class="tag-row"><text x="48" y="494" class="axis-label" text-anchor="start">Modality</text>
@@ -166,7 +166,7 @@
       <rect x="171" y="583" width="105" height="28" rx="5" class="tag-chip"/><rect x="285" y="583" width="105" height="28" rx="5" class="tag-chip"/><rect x="399" y="583" width="105" height="28" rx="5" class="tag-chip"/>
       <rect id="tag-focus-3" x="399" y="583" width="105" height="28" rx="5" class="tag-focus" style="fill: rgb(239, 233, 247); stroke: rgb(145, 106, 179);"/>
       <text x="223.5" y="602" class="tag-text" text-anchor="middle">L2</text><text x="337.5" y="602" class="tag-text" text-anchor="middle">L3</text><text x="451.5" y="602" class="tag-text" text-anchor="middle">L4</text></g><text x="286" y="640" class="small" text-anchor="middle">Disease labels stay in planning.</text></g>
-<path id="return-path" d="M164 432V379H22V188H29" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 393, 393; stroke-dashoffset: 393; marker-end: none;"/>
+<path id="selection-path" d="M576 473H560Q552 473 552 487V519H543" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 75.1186, 75.1186; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);"/><path id="return-path" d="M164 432V379H22V188H41" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 405, 405; stroke-dashoffset: 405; marker-end: none;"/>
 <text x="80" y="365" class="small" text-anchor="start">Next training question</text>
 <g id="repair-packet" transform="translate(1094 473)" opacity="0"><rect x="-16" y="-18" width="32" height="36" rx="4" class="active-target"/><use id="repair-packet-icon" href="#medical-ct" x="-14" y="-16" width="28" height="28"/><path d="M4 6l3 3 5-6" class="check"/></g>
 <circle id="learning-packet" r="5" class="marker-blue" transform="translate(645 473)" opacity="0"/><circle id="base-packet" r="5" class="marker-blue" transform="translate(777 437)" opacity="0"/>
