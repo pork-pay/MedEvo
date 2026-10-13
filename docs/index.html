@@ -71,7 +71,7 @@
 </section>
 
 <section id="evidence" class="evidence-section" aria-labelledby="evidence-title">
-  <div class="section-heading"><p class="eyebrow">What the experiments reveal</p><h2 id="evidence-title">Repair is only the beginning.</h2></div>
+  <div class="section-heading"><p class="eyebrow">What the experiments reveal</p><h2 id="evidence-title">Data selection and feedback</h2></div>
   <div class="insights">
     <article class="insight"><h3>Harder to repair. <br>More useful to learn.</h3>
       <table class="selection-comparison"><caption>Qwen3.5-9B · one round</caption><thead><tr><th scope="col"></th><th scope="col">Longest 8k</th><th scope="col">Random 8k</th></tr></thead><tbody><tr><th scope="row">Repair success</th><td>55.70<span>%</span></td><td>67.50<span>%</span></td></tr><tr><th scope="row">After training</th><td class="emphasis">66.78<span>%</span></td><td>64.35<span>%</span></td></tr></tbody></table>
@@ -82,7 +82,7 @@
       <p class="small-note">Base → round 3. Better training fit need not transfer.</p>
     </article>
   </div>
-  <details class="figure-details"><summary>See the evidence in Figure 5 <span aria-hidden="true">+</span></summary><figure><a href="assets/selection.png" target="_blank" rel="noopener"><img src="assets/selection.png" loading="lazy" alt="The paper's selection, hint-count, and independent-feedback comparisons, including longest-8k accuracy of 66.78% and fixed-set feedback accuracy of 69.12%."></a><figcaption>Selection, hints, and feedback. Percentages are reported values; the figure opens at full resolution.</figcaption></figure></details>
+  <details class="figure-details"><summary>See the evidence in Figure 5 <span aria-hidden="true">+</span></summary><figure><a href="assets/selection.png" target="_blank" rel="noopener"><img src="assets/selection.png" loading="lazy" alt="The paper's selection, hint-count, and independent-feedback comparisons, including longest-8k accuracy of 66.78% and fixed-set feedback accuracy of 69.12%."></a><figcaption>Selection, hints, and feedback.</figcaption></figure></details>
 </section>
 
 <section id="comparison" class="comparison-section" aria-labelledby="comparison-title">
@@ -90,7 +90,7 @@
   <symbol id="medical-model-mark" viewBox="0 0 20 20"><path d="M6.5 5V3.5h7V5M3 5.5h14v11H3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8v6M7 11h6" stroke="currentColor" stroke-width="1.8"/></symbol>
   <symbol id="repair-method-mark" viewBox="0 0 20 20"><path d="M12.2 3.2a4.3 4.3 0 0 0-5.1 5.5l-4.5 5a1.9 1.9 0 0 0 2.7 2.7l5-4.5a4.3 4.3 0 0 0 5.5-5.1l-2.6 2.1-2.1-2.1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
 </defs></svg>
-  <div class="results-heading"><div><p class="eyebrow">Medical multimodal benchmarks</p><h2 id="comparison-title">The complete model comparison.</h2></div><a class="table-source" href="assets/medevo.pdf#page=9">Table 2 in the paper ↗</a></div>
+  <div class="results-heading"><div><p class="eyebrow">Medical multimodal benchmarks</p><h2 id="comparison-title">Model comparison</h2></div><a class="table-source" href="assets/medevo.pdf#page=9">Table 2 in the paper ↗</a></div>
   <div class="table-key"><span><svg class="model-marker medical" role="img" aria-label="Medical model" viewBox="0 0 20 20"><use href="#medical-model-mark"></use></svg> Medical model</span><span><svg class="model-marker repair" role="img" aria-label="Trajectory-repair method" viewBox="0 0 20 20"><use href="#repair-method-mark"></use></svg> Trajectory repair</span><span class="table-scroll-hint">Scroll horizontally for all benchmarks →</span></div>
   <div class="comparison-scroll" tabindex="0" role="region" aria-label="Complete model comparison, scroll horizontally for all eight accuracy columns">
   <table class="main-comparison" aria-describedby="comparison-notes">
@@ -327,14 +327,14 @@
 </section>
 
 <section id="results" class="results-section" aria-labelledby="results-title">
-  <div class="results-heading"><div><p class="eyebrow">SFT only</p><h2 id="results-title">Across three scales.</h2></div><p>Seven-benchmark mean accuracy (%)</p></div>
+  <div class="results-heading"><div><p class="eyebrow">SFT only</p><h2 id="results-title">Three model scales</h2></div><p>Seven-benchmark mean accuracy (%)</p></div>
   <div class="scale-results"><div><span>Qwen3.5-9B</span><strong>65.57 <i>→</i> 69.12</strong><small>3 rounds · +3.55 pp</small></div><div><span>Qwen3.5-35B</span><strong>67.91 <i>→</i> 73.04</strong><small>3 rounds · +5.13 pp</small></div><div><span>Qwen3.5-397B</span><strong>71.83 <i>→</i> 74.95</strong><small>2 rounds · +3.12 pp</small></div></div>
-  <p class="small-note">pp: percentage points. Seven medical multimodal benchmarks.</p>
+  <p class="small-note">pp: percentage points.</p>
 </section>
 
 <section id="resources" class="resources-section" aria-label="Resources">
   <div class="resource-links"><a href="assets/medevo.pdf">Paper ↗</a><a href="https://github.com/pork-pay/MedEvo">GitHub ↗</a><a href="https://pork-pay.github.io/MedEvo/">Project page ↗</a><a href="https://pork-pay.github.io/ECG-RSI/">Related: ECG-RSI ↗</a></div>
-  <p class="small-note">The paper and project page are available. Implementation and training-data files are not released.</p>
+  <p class="small-note">Research code and training data are not released.</p>
   <details class="figure-details"><summary>Full method diagram <span aria-hidden="true">+</span></summary><figure><a href="assets/workflow.png" target="_blank" rel="noopener"><img src="assets/workflow.png" loading="lazy" alt="Full MedEvo method diagram from the paper."></a><figcaption>Only input-observable tags reach the auditor. Feedback questions guide selection and never enter training.</figcaption></figure></details>
   <details class="citation-details" id="cite"><summary>Cite MedEvo <span aria-hidden="true">+</span></summary><div class="citation-heading"><button id="copy-citation" type="button">Copy BibTeX</button><span id="copy-status" role="status" aria-live="polite"></span></div><pre class="citation"><code id="bibtex">@misc{wang2026medevo,
   title  = {MedEvo: Medical Reasoning Evolution through Knowledge Navigation},
