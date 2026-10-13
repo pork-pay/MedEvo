@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="200" height="180" viewBox="100 0 200 180" role="img" aria-labelledby="title desc">
 <title id="title">MedEvo — integrated medical reasoning and suffix repair</title>
-<desc id="desc">The unchanged neural brain contains lungs inset into its left side. A purple reasoning prefix transitions to a teal repaired suffix at a marked boundary. All shapes are independently editable.</desc>
+<desc id="desc">A blue brain and lungs with a purple-to-teal reasoning path.</desc>
 <g id="composition" transform="translate(5 3) scale(0.94)">
 
 <g id="brain" inkscape:groupmode="layer" inkscape:label="02 Neural brain" fill="none" stroke="#287DB1" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
