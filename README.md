@@ -1,21 +1,16 @@
 <div align="center">
 
-<p><img src="docs/assets/logos/zhejiang-university-symbol.png" height="30" alt="Zhejiang University"> &nbsp;&nbsp; <img src="docs/assets/logos/ant-group-symbol.png" height="30" alt="Ant Group"> &nbsp;&nbsp; <img src="docs/assets/logos/shanghai-ai-lab-symbol.png" height="30" alt="Shanghai AI Laboratory"> &nbsp;&nbsp; <img src="docs/assets/logos/shanghai-jiao-tong-symbol.png" height="30" alt="Shanghai Jiao Tong University"></p>
+<p><img src="docs/assets/logos/zhejiang-university-symbol.png" height="24" align="middle" alt="">&nbsp;<sub>Zhejiang University</sub> &nbsp;&nbsp; <img src="docs/assets/logos/ant-group-symbol.png" height="24" align="middle" alt="">&nbsp;<sub>Ant Group</sub> &nbsp;&nbsp; <img src="docs/assets/logos/shanghai-ai-lab-symbol.png" height="24" align="middle" alt="">&nbsp;<sub>Shanghai AI Lab</sub> &nbsp;&nbsp; <img src="docs/assets/logos/shanghai-jiao-tong-symbol.png" height="24" align="middle" alt="">&nbsp;<sub>SJTU</sub></p>
 
-<h1><img src="docs/assets/logos/medevo.svg" height="36" alt=""> MedEvo</h1>
+<h1><img src="docs/assets/logos/medevo.svg" height="36" align="middle" alt=""> MedEvo: Medical Reasoning Evolution<br>through Knowledge Navigation</h1>
 
-**Medical Reasoning Evolution<br>through Knowledge Navigation**
+<p>Xiaoliang&nbsp;Wang<sup>1,2*</sup>, Zhuo&nbsp;Chen<sup>2*</sup>, Chuanyang&nbsp;Zheng<sup>2</sup>, Quanbin&nbsp;Wang<sup>2</sup>, Jiangwei&nbsp;Lao<sup>2</sup>, Yingao&nbsp;Liu<sup>2</sup>,<br>
+Jiajia&nbsp;Liu<sup>2</sup>, Jinming&nbsp;Cao<sup>2</sup>, Honglin&nbsp;Lin<sup>3,4</sup>, Zhihong&nbsp;Lu<sup>2</sup>, Hao&nbsp;Jin<sup>1</sup>, Jian&nbsp;Wang<sup>2</sup>, Lijun&nbsp;Wu<sup>2,3†</sup></p>
 
-[![Paper](docs/assets/readme-paper.svg)](docs/assets/medevo.pdf)
-[![Project page](docs/assets/readme-project.svg)](https://pork-pay.github.io/MedEvo/)
+<p><sub><sup>1</sup> Zhejiang University &nbsp;·&nbsp; <sup>2</sup> Ant Group &nbsp;·&nbsp; <sup>3</sup> Shanghai Artificial Intelligence Laboratory &nbsp;·&nbsp; <sup>4</sup> Shanghai Jiao Tong University<br>
+<sup>*</sup> Equal contribution &nbsp;·&nbsp; <sup>†</sup> Corresponding author</sub></p>
 
-<p>Xiaoliang Wang<sup>1,2*</sup>, Zhuo Chen<sup>2*</sup>, Chuanyang Zheng<sup>2</sup>, Quanbin Wang<sup>2</sup>, Jiangwei Lao<sup>2</sup>, Yingao Liu<sup>2</sup>, Jiajia Liu<sup>2</sup>,<br>
-Jinming Cao<sup>2</sup>, Honglin Lin<sup>3,4</sup>, Zhihong Lu<sup>2</sup>, Hao Jin<sup>1</sup>, Jian Wang<sup>2</sup>, Lijun Wu<sup>2,3†</sup></p>
-
-<p><sup>1</sup> Zhejiang University &nbsp;·&nbsp; <sup>2</sup> Ant Group<br>
-<sup>3</sup> Shanghai Artificial Intelligence Laboratory &nbsp;·&nbsp; <sup>4</sup> Shanghai Jiao Tong University</p>
-
-<sup>*</sup> Equal contribution &nbsp;·&nbsp; <sup>†</sup> Corresponding author
+<p><a href="docs/assets/medevo.pdf"><img src="docs/assets/readme-paper.svg" height="24" alt="Paper"></a> &nbsp;<a href="https://pork-pay.github.io/MedEvo/"><img src="docs/assets/readme-project.svg" height="24" alt="Project page"></a></p>
 
 </div>
 
@@ -31,13 +26,21 @@ Jinming Cao<sup>2</sup>, Honglin Lin<sup>3,4</sup>, Zhihong Lu<sup>2</sup>, Hao 
 
 ## Results
 
-Mean accuracy across seven medical multimodal benchmarks (%).
+**Accuracy (%) on seven medical multimodal benchmarks.**
+Each cell shows **Base → MedEvo**: three rounds for 9B/35B and two rounds for 397B.
 
-| Backbone | Base | MedEvo |
-|:--|--:|--:|
-| Qwen3.5-9B | 65.57 | **69.12** |
-| Qwen3.5-35B | 67.91 | **73.04** |
-| Qwen3.5-397B | 71.83 | **74.95** |
+| Benchmark | Qwen3.5-9B | Qwen3.5-35B | Qwen3.5-397B |
+|:--|:--:|:--:|:--:|
+| PMC-VQA | 59.20 → 62.68 | 62.40 → 64.63 | 63.47 → 65.72 |
+| VQA-RAD | 68.10 → 70.40 | 70.50 → 75.83 | 74.72 → 77.15 |
+| SLAKE | 76.80 → 78.23 | 70.10 → 80.30 | 77.38 → 79.10 |
+| PathVQA | 48.80 → 53.34 | 49.15 → 56.01 | 52.49 → 57.90 |
+| OmniMedVQA | 82.20 → 85.41 | 83.20 → 83.97 | 85.10 → 85.05 |
+| MedXpertQA-MM | 47.40 → 54.50 | 60.00 → 66.50 | 67.65 → 75.00 |
+| MMMU-Med | 76.50 → 79.28 | 80.00 → 84.02 | 82.03 → 84.75 |
+| **Mean (7 benchmarks)** | **65.57 → 69.12** | **67.91 → 73.04** | **71.83 → 74.95** |
+
+The mean gives each benchmark equal weight. MedXpertQA-MM is the multimodal track of MedXpertQA; MMMU-Med is the medical subset of MMMU.
 
 [Full results and comparisons →](https://pork-pay.github.io/MedEvo/#comparison)
 
