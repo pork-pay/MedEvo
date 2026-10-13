@@ -1,6 +1,6 @@
 <div align="center">
 
-<p><img src="docs/assets/logos/zhejiang-university-symbol.png" height="24" align="middle" alt="">&nbsp;<sub>Zhejiang&nbsp;University</sub> &nbsp;&nbsp; <img src="docs/assets/logos/ant-group-symbol.png" height="24" align="middle" alt="">&nbsp;<sub>Ant&nbsp;Group</sub> &nbsp;&nbsp; <img src="docs/assets/logos/shanghai-ai-lab-symbol.png" height="24" align="middle" alt="">&nbsp;<sub>Shanghai&nbsp;AI&nbsp;Lab</sub> &nbsp;&nbsp; <img src="docs/assets/logos/shanghai-jiao-tong-symbol.png" height="24" align="middle" alt="">&nbsp;<sub>SJTU</sub></p>
+<p><img src="docs/assets/readme-zju.svg" height="38" align="middle" alt="Zhejiang University"> &nbsp;&nbsp; <img src="docs/assets/readme-ant.svg" height="38" align="middle" alt="Ant Group"> &nbsp;&nbsp; <img src="docs/assets/readme-shanghai-ai.svg" height="38" align="middle" alt="Shanghai AI Lab"> &nbsp;&nbsp; <img src="docs/assets/readme-sjtu.svg" height="38" align="middle" alt="SJTU"></p>
 
 <h1><img src="docs/assets/logos/medevo.svg" height="36" align="middle" alt=""> MedEvo: Medical Reasoning Evolution<br>through Knowledge Navigation</h1>
 
@@ -10,7 +10,11 @@ Jiajia&nbsp;Liu<sup>2</sup>, Jinming&nbsp;Cao<sup>2</sup>, Honglin&nbsp;Lin<sup>
 <p><sub><sup>1</sup>&nbsp;Zhejiang&nbsp;University &nbsp;·&nbsp; <sup>2</sup>&nbsp;Ant&nbsp;Group &nbsp;·&nbsp; <sup>3</sup>&nbsp;Shanghai&nbsp;Artificial&nbsp;Intelligence&nbsp;Laboratory &nbsp;·&nbsp; <sup>4</sup>&nbsp;Shanghai&nbsp;Jiao&nbsp;Tong&nbsp;University<br>
 <sup>*</sup> Equal contribution &nbsp;·&nbsp; <sup>†</sup> Corresponding author</sub></p>
 
-<p><a href="docs/assets/medevo.pdf"><img src="docs/assets/readme-paper.svg" height="24" alt="Paper"></a> &nbsp;<a href="https://pork-pay.github.io/MedEvo/"><img src="docs/assets/readme-project.svg" height="24" alt="Project page"></a></p>
+[![Paper](https://img.shields.io/badge/Paper-PDF-b31b1b.svg)](docs/assets/medevo.pdf)
+[![Website](https://img.shields.io/badge/Website-MedEvo-287DB1.svg)](https://pork-pay.github.io/MedEvo/)
+[![GitHub stars](https://img.shields.io/github/stars/pork-pay/MedEvo?style=social)](https://github.com/pork-pay/MedEvo/stargazers)
+[![Benchmarks](https://img.shields.io/badge/Benchmarks-7-267F70.svg)](#results)
+[![Code status](https://img.shields.io/badge/Code-Being%20prepared-6C757D.svg)](#release-plan)
 
 </div>
 
