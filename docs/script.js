@@ -273,9 +273,10 @@ ${line('selection-path', c.selectionPath, 'draw-violet', 'arrow-violet')}${line(
 const animationHost = document.getElementById('animation-canvas');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const narrowScreen = window.matchMedia('(max-width: 640px)');
-const caseDuration = 12000;
+const caseDuration = 14000;
+const timelineDuration = 16000;
 const duration = caseDuration * errorScenarios.length;
-const stageSeeks = [2700, 5700, 8925, 11000];
+const stageSeeks = [3600, 7600, 11900, 14800].map(time => time * caseDuration / timelineDuration);
 const stageTitles = [
   'Medical error diagnosis',
   'Knowledge-guided trajectory repair',
@@ -316,6 +317,15 @@ function nodeOnPath(id, progress, positions, index, axis) {
   const distance = length - Math.abs(positions.at(-1)[axis] - positions[index][axis]);
   return progress > 0 ? ease(clamp((length * progress - distance + 22) / 22)) : 0;
 }
+function lineLabel(id, progress, coordinate, axis = 'x') {
+  // These labels sit beside a path's final straight segment.
+  // Their fade follows the line tip after it passes the label's anchor.
+  const length = pathLengths[id];
+  const end = elements[id].getPointAtLength(length)[axis];
+  const remaining = Math.abs(end - coordinate);
+  const distance = length - remaining;
+  return ease(clamp((length * progress - distance) / Math.min(60, remaining)));
+}
 function mountScene() {
   layout = narrowScreen.matches ? sceneLayouts.mobile : sceneLayouts.desktop;
   animationHost.innerHTML = buildScene(layout);
@@ -346,7 +356,7 @@ function render(ms) {
   const caseIndex = Math.min(errorScenarios.length - 1, Math.floor(time / caseDuration));
   const scenario = errorScenarios[caseIndex];
   const localTime = time - caseIndex * caseDuration;
-  const t = localTime * 16000 / caseDuration;
+  const t = localTime * timelineDuration / caseDuration;
   const phase = Math.min(3, Math.floor(t / 4000));
   const rise = (start, end) => ease(between(t, start, end));
   const fall = (start, end) => 1 - rise(start, end);
@@ -410,10 +420,11 @@ function render(ms) {
   opacity('trace-past', localPresence);
   opacity('trace-fresh', rise(15100, 15400) * caseExit);
   opacity('prefix-group', rise(250, 500));
-  const prefixProgress = rise(400, 1400);
+  const prefixEnd = 1400;
+  const prefixProgress = rise(400, prefixEnd);
   draw('prefix-path', prefixProgress);
   layout.prefix.forEach((_, i) => opacity(`prefix-${i}`, nodeOnPath('prefix-path', prefixProgress, layout.prefix, i, 0)));
-  opacity('prefix-label', rise(1250, 1500));
+  opacity('prefix-label', rise(prefixEnd, prefixEnd + 200));
   opacity('failed-branch', rise(1500, 1800) * (.13 + .87 * fall(4350, 4800)));
   const wrongProgress = rise(1500, 2250);
   draw('wrong-path', wrongProgress);
@@ -448,17 +459,21 @@ function render(ms) {
   opacity('rule-linked', recovery);
 
   opacity('new-branch', rise(5250, 5500));
-  opacity('repair-caption', rise(5300, 5700));
   const correctProgress = rise(5300, 7200);
   draw('correct-path', correctProgress);
+  const repairLabelAnchor = layout.mobile
+    ? (layout.corrected[0][1] + layout.corrected[1][1]) / 2
+    : layout.suffixLabel[0];
+  opacity('repair-caption', lineLabel('correct-path', correctProgress, repairLabelAnchor, layout.mobile ? 'y' : 'x'));
   layout.corrected.forEach((_, i) => {
     const last = i === layout.corrected.length - 1;
     opacity(`corrected-${i}`, last ? 1 : nodeOnPath('correct-path', correctProgress, layout.corrected, i, layout.mobile ? 1 : 0));
   });
   const candidatePresence = rise(7200, 7450) * localPresence;
   opacity('candidate-target', rise(7200, 7450));
-  const screened = t >= 8250 && !fresh;
-  opacity('screen-check', screened ? rise(8250, 8500) : 0);
+  const screenProgress = rise(8250, 8500);
+  const screened = screenProgress === 1 && !fresh;
+  opacity('screen-check', fresh ? 0 : screenProgress);
   elements['target-status-label'].textContent = screened ? (layout.mobile ? 'Screened' : 'Screened target') : (layout.mobile ? 'Candidate' : 'Candidate target');
 
   // Each connector waits until both components exist. Admission follows the completed screen.
@@ -480,8 +495,8 @@ function render(ms) {
   draw('data-path', dataFlow, Math.min(datasetPresence, trainingPresence));
   draw('base-path', baseFlow, trainingPresence);
   draw('model-path', modelFlow, Math.min(trainingPresence, evaluationPresence));
-  opacity('dataset-output-label', rise(10450, 10700) * outerPresence);
-  opacity('model-output-label', rise(11300, 11550) * outerPresence);
+  opacity('dataset-output-label', lineLabel('data-path', dataFlow, (layout.dataset[0] + layout.train[0]) / 2) * outerPresence);
+  opacity('model-output-label', lineLabel('model-path', modelFlow, layout.modelLabel[0]) * outerPresence);
   travel('base-packet', 'base-path', baseFlow, packet(10450, 11050) * trainingPresence);
   if (t < 11250) travel('learning-packet', 'data-path', dataFlow, packet(10450, 11100) * Math.min(datasetPresence, trainingPresence));
   else travel('learning-packet', 'model-path', modelFlow, packet(11250, 11850) * Math.min(trainingPresence, evaluationPresence));
@@ -499,9 +514,10 @@ function render(ms) {
   });
   // The return route is established before the next question travels along it.
   const returnPresence = fall(15150, 15500);
-  draw('return-path', rise(14100, 14600), returnPresence);
+  const returnEnd = 14600;
+  draw('return-path', rise(14100, returnEnd), returnPresence);
   travel('question-packet', 'return-path', rise(14300, 15100), packet(14300, 15100, 200) * returnPresence);
-  opacity('next-question-label', rise(14000, 14300) * returnPresence);
+  opacity('next-question-label', rise(returnEnd, returnEnd + 200) * returnPresence);
   playButton.textContent = playing ? 'Pause' : 'Play';
   playButton.setAttribute('aria-label', playing ? 'Pause the evolution schematic' : 'Play the evolution schematic');
   playButton.setAttribute('aria-pressed', String(playing));
