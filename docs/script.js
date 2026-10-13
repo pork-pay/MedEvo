@@ -39,6 +39,38 @@ const sceneLayouts = {
   },
 };
 
+const errorScenarios = [
+  {
+    key: 'visual', code: 'V1', family: 0, subtype: 0, name: 'Visual misreading',
+    summary: 'A missed finding calls for another look at the relevant image region.',
+    cue: 'Reinspect the region', icon: 'ct', tags: [0, 0, 0, 1], next: [1, 1, 1, 2],
+  },
+  {
+    key: 'reasoning', code: 'R2', family: 1, subtype: 1, name: 'Reasoning error',
+    summary: 'Reconcile supporting and opposing observations before continuing the inference.',
+    cue: 'Reconcile both observations', icon: 'ecg', tags: [2, 2, 0, 1], next: [0, 0, 2, 2],
+  },
+  {
+    key: 'differential', code: 'D2', family: 2, subtype: 1, name: 'Differential diagnosis error',
+    summary: 'Compare the features that distinguish the candidate explanations.',
+    cue: 'Compare key features', icon: 'histology', tags: [1, 1, 1, 2], next: [2, 2, 0, 1],
+  },
+  {
+    key: 'knowledge', code: 'K2', family: 3, subtype: 1, name: 'Knowledge gap',
+    summary: 'A missing diagnostic criterion calls for a cue to the relevant rule category.',
+    cue: 'Recall the rule category', icon: 'ct', tags: [0, 0, 2, 0], next: [1, 1, 1, 1],
+  },
+];
+const modalityNames = ['CT', 'Histology', 'ECG'];
+const anatomyNames = ['Thorax', 'Abdomen', 'Heart'];
+const modalityIcons = ['ct', 'histology', 'ecg'];
+
+function diagnosisRoute(c, caseIndex) {
+  const cellWidth = (c.book.w - c.book.gap * 3) / 4;
+  const center = c.book.x + cellWidth / 2 + caseIndex * (cellWidth + c.book.gap);
+  return c.mobile ? `M529 224H565V388H${center}V430` : `M655 177V173H${center}V159`;
+}
+
 function buildScene(c) {
   const m = c.mobile;
   const xy = a => a.join(' ');
@@ -71,9 +103,9 @@ function buildScene(c) {
       <rect id="tag-focus-${row}" x="${xs[row === 3 ? 1 : 0]}" y="${y}" width="${map.chipW}" height="${map.rowH}" rx="5" class="tag-focus"/>
       ${choices.map((label, i) => text(xs[i] + map.chipW / 2, y + map.rowH / 2 + (m ? 7 : 5), label, 'tag-text')).join('')}</g>`;
   }).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${c.w} ${c.h}" class="navigation-scene" role="img" aria-labelledby="scene-title scene-description" data-mobile="${m}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${c.w} ${c.h}" class="navigation-scene" role="group" aria-labelledby="scene-title scene-description" data-mobile="${m}">
 <title id="scene-title">Medical Knowledge Navigation in MedEvo</title>
-<desc id="scene-description">A schematic medical learning cycle, not a clinical case or measured result. A training question supplies observable clinical context. Each fresh failed rollout is diagnosed against four fixed error families, with five subtypes per family. A gold-blind auditor supplies an answer-free recovery cue. The same student keeps supported reasoning and regenerates only the suffix. Screened targets update medical supervision, with at most one active target per question. Each SFT round starts from the same M zero. A separate fixed feedback set supplies assessment signals, never training samples. Feedback shifts selection priorities across the fixed modality, anatomy, disease and difficulty axes. Answer-derived disease labels stay in planning metadata and never reach the auditor or hint. The next training question is diagnosed afresh. CT and histology contexts and highlighted priorities are illustrative.</desc>
+<desc id="scene-description">Four independent schematic cases illustrate visual misreading, conflicting evidence, missing differential comparison, and a missing diagnostic criterion. Case numbers do not denote training rounds or measured clinical results. A training question supplies observable clinical context. Each fresh failed rollout is diagnosed against four fixed error families, with five subtypes per family. A gold-blind auditor supplies an answer-free recovery cue. The same student keeps supported reasoning and regenerates only the suffix. Screened targets update medical supervision, with at most one active target per question. Each SFT round starts from the same M zero. A separate fixed feedback set supplies assessment signals, never training samples. Feedback shifts selection priorities across the fixed modality, anatomy, disease and difficulty axes. Answer-derived disease labels stay in planning metadata and never reach the auditor or hint. The next training question is diagnosed afresh. CT, histology and ECG contexts and highlighted priorities are illustrative. Select any error-family card to play its complete audit, repair, learning and reselection cycle.</desc>
 <style>
 .navigation-scene{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#fff;color:#23475d}
 .navigation-scene text{font-size:${m ? 23 : 16}px;fill:#294b62}
@@ -97,14 +129,21 @@ function buildScene(c) {
 .navigation-scene .node.bad{stroke:#cb9c94;fill:#fcf1ee}.navigation-scene .node.repaired{stroke:#63a3b1;fill:#edf8f8}
 .navigation-scene .check{fill:none;stroke:#267c8c;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
 .navigation-scene .node.good+.check{stroke:#8059a5}.navigation-scene .cross{stroke:#b36e65;stroke-width:2;stroke-linecap:round}
-.navigation-scene .panel{fill:#f7fafc;stroke:#d8e4ed;stroke-width:1.3}.navigation-scene .plain{fill:#fff;stroke:#becfdd;stroke-width:1.4}
+.navigation-scene .local-region{fill:#f6faff}.navigation-scene .supervision-region{fill:#faf7fd}
+.navigation-scene .outer-label{fill:#716086}.navigation-scene .panel{fill:#fff;stroke:#d8deea;stroke-width:1.3}.navigation-scene .plain{fill:#fff;stroke:#becfdd;stroke-width:1.4}
 .navigation-scene .family-card{fill:#fff;stroke:#d6e1e9;stroke-width:1.2}.navigation-scene .family-active{fill:#f0e9f8;stroke:#9369b4;stroke-width:1.7}
+.navigation-scene .family-control{cursor:pointer;outline:none}.navigation-scene .family-control:focus .family-card{stroke:#326f9e;stroke-width:3}
+.navigation-scene .family-selected{stroke:#75a3be;stroke-width:1.8}.navigation-scene .family-control:hover .family-card{stroke:#7a58a0}
+.navigation-scene .action-line{fill:none;stroke:#769cb4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.navigation-scene .action-cue{fill:#f1eaf8;stroke:#9574b0;stroke-width:1.5}.navigation-scene .action-dash{stroke-dasharray:3 4}
+.navigation-scene .action-label{font-size:${m ? 21 : 14}px;fill:#4f6577}
+.navigation-scene .action-accent{fill:#e6f3f5;stroke:#4d95a5;stroke-width:1.7}
 .navigation-scene .subtype-dot{fill:#b6c5d2}.navigation-scene .active-subtype{fill:#8059a5}
 .navigation-scene .tag-chip{fill:#fff;stroke:#d7e3ed;stroke-width:1.1}.navigation-scene .tag-focus{fill:#e5f1fa;stroke:#5999c0;stroke-width:1.8}
 .navigation-scene .hint-shape{fill:#fff;stroke:#b8a7ca;stroke-width:1.5}.navigation-scene .sft{fill:#eaf4fb;stroke:#8aadc7;stroke-width:1.6}
 .navigation-scene .feedback-shape{fill:#f5f0f9;stroke:#ac93c2;stroke-width:1.4}.navigation-scene .feedback-bank{fill:#fbf9fd;stroke:#b49aca;stroke-width:1.4;stroke-dasharray:5 4}
 .navigation-scene .active-target{fill:#edf8f3;stroke:#6da797;stroke-width:1.5}.navigation-scene .ring{fill:none;stroke:#b97c70;stroke-width:1.8;stroke-dasharray:4 5}
-.navigation-scene .boundary{stroke:#90aec2;stroke-width:1.5;stroke-dasharray:3 5}.navigation-scene .divider{stroke:#e3ecf2;stroke-width:1}
+.navigation-scene .boundary{stroke:#90aec2;stroke-width:1.5;stroke-dasharray:3 5}.navigation-scene .divider{stroke:#d8dfea;stroke-width:1.3}
 .navigation-scene .fresh-route{stroke:#a6bfce;stroke-dasharray:5 7}.navigation-scene .marker-blue{fill:#287db1}.navigation-scene .marker-violet{fill:#8059a5}
 </style>
 <defs>
@@ -113,10 +152,11 @@ ${[['blue', '#287db1'], ['violet', '#8059a5'], ['red', '#b58176']].map(([name, c
 <symbol id="medical-histology" viewBox="0 0 64 64"><rect x="4" y="5" width="56" height="54" rx="8" fill="#fbf1f6" stroke="#bc99ba" stroke-width="1.5"/><g fill="#efd6e8" stroke="#b585b0" stroke-width="1.2"><ellipse cx="17" cy="18" rx="8" ry="7"/><ellipse cx="40" cy="16" rx="10" ry="7"/><ellipse cx="29" cy="32" rx="10" ry="8"/><ellipse cx="50" cy="36" rx="7" ry="9"/><ellipse cx="13" cy="44" rx="7" ry="8"/><ellipse cx="35" cy="49" rx="9" ry="6"/></g><g fill="#9674a5"><circle cx="18" cy="18" r="2.5"/><circle cx="39" cy="16" r="3"/><circle cx="28" cy="32" r="3"/><circle cx="50" cy="35" r="2.4"/><circle cx="13" cy="44" r="2.4"/><circle cx="34" cy="49" r="2.5"/></g></symbol>
 <symbol id="medical-ecg" viewBox="0 0 64 64"><rect x="4" y="5" width="56" height="54" rx="7" fill="#f0f7fa" stroke="#88acbd" stroke-width="1.5"/><path d="M5 20H59M5 33H59M5 46H59M18 6V58M32 6V58M46 6V58" fill="none" stroke="#d5e5ec" stroke-width="1"/><path d="M8 35H16L20 30L24 35H28L32 18L37 49L42 30L46 35H56" fill="none" stroke="#3a879f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </defs>
-<rect width="${c.w}" height="${c.h}" fill="#fff"/>
+<rect width="${c.w}" height="${m ? 652 : 389}" class="local-region"/>
+<rect y="${m ? 652 : 389}" width="${c.w}" height="${c.h - (m ? 652 : 389)}" class="supervision-region"/>
 ${text(...c.localTitle, 'LOCAL MEDICAL REPAIR', 'section-label', 'start')}
 <path d="M30 ${m ? 652 : 389}H${c.w - 30}" class="divider"/>
-${text(...c.outerTitle, 'EVOLVING SUPERVISION', 'section-label', 'start')}
+${text(...c.outerTitle, 'EVOLVING SUPERVISION', 'section-label outer-label', 'start')}
 <g id="outer-tracks">
 ${line('target-track', c.targetPath)}${line('data-track', c.dataPath)}${line('model-track', c.modelPath)}${line('feedback-track', c.feedbackPath)}${line('selection-track', c.selectionPath)}${line('return-track', c.returnPath)}${line('base-track', c.basePath)}
 </g>
@@ -125,6 +165,7 @@ ${line('target-track', c.targetPath)}${line('data-track', c.dataPath)}${line('mo
 ${text(0, m ? -72 : -52, m ? 'Training input' : 'Training question', m ? 'base' : 'small')}
 <g id="question-ct">${icon('ct', 0, m ? -22 : -15, m ? 74 : 66)}</g>
 <g id="question-histology">${icon('histology', 0, m ? -22 : -15, m ? 74 : 66)}</g>
+<g id="question-ecg">${icon('ecg', 0, m ? -22 : -15, m ? 74 : 66)}</g>
 ${text(0, m ? 42 : 37, 'CT', 'base', 'middle', 'context-modality')}
 ${text(0, m ? 70 : 59, 'Thorax', 'base', 'middle', 'context-anatomy')}
 <circle id="reinspection-ring" cx="${m ? 14 : 12}" cy="${m ? -20 : -13}" r="${m ? 14 : 12}" class="ring"/>
@@ -139,20 +180,52 @@ ${text(...c.prefixLabel, 'Supported prefix', 'good-label')}
 <g id="failed-branch">${line('wrong-path', c.wrongPath, 'draw-red')}${c.wrong.map((p, i) => node(`wrong-${i}`, p, 'bad', '<path d="M-6-6L6 6M6-6L-6 6" class="cross"/>')).join('')}</g>
 ${text(...c.wrongLabel, m ? 'Failed suffix' : 'First error → failed suffix', 'bad-label', 'middle', 'failed-label')}
 <circle id="error-ring" cx="${c.wrong[0][0]}" cy="${c.wrong[0][1]}" r="30" class="ring"/>
-${line('diagnosis-path', c.diagnosisPath, 'draw-violet', 'arrow-violet')}
+${line('diagnosis-path', diagnosisRoute(c, 0), 'draw-violet', 'arrow-violet')}
 ${line('rollback-path', c.rollbackPath, 'rollback', 'arrow-red')}
 <path id="safe-boundary" d="${m ? `M${c.boundary[0] - 26} ${c.boundary[1]}h52` : `M${c.boundary[0]} ${c.boundary[1] - 25}v112`}" class="boundary"/>
 <g id="new-branch">${line('correct-path', c.correctPath, 'draw-blue')}${c.corrected.map((p, i) => node(`corrected-${i}`, p, 'repaired', i === c.corrected.length - 1 ? '<g id="screen-check">' + check + '</g>' : check)).join('')}</g>
-${m ? text(c.suffixLabel[0], c.suffixLabel[1], 'Same student', 'repair-label') + text(c.suffixLabel[0], c.suffixLabel[1] + 26, 'New suffix', 'repair-label') : text(...c.suffixLabel, 'Same student · new suffix', 'repair-label')}
+${m ? text(c.suffixLabel[0], 305, 'Same student', 'repair-label') + text(c.suffixLabel[0], 378, 'New suffix', 'repair-label') : text(...c.suffixLabel, 'Same student · new suffix', 'repair-label')}
 ${text(c.corrected.at(-1)[0], c.corrected.at(-1)[1] + (m ? 51 : 43), m ? 'Candidate' : 'Candidate target', 'small', 'middle', 'target-status-label')}
 </g>
 <g id="trace-fresh">${line('fresh-path', c.freshPath, 'fresh-route')}${node('fresh-result', m ? [503, 278] : [849, 205], '', text(0, 8, '?', 'title'))}
 ${text(...c.prefixLabel, 'Fresh rollout', 'good-label')}${text(...c.wrongLabel, m ? 'Diagnose again' : 'Diagnose the new rollout independently', 'small')}</g>
+<g id="case-action" transform="translate(${m ? 158 : 290} ${m ? 333 : 329})">
+<g id="action-visual">
+  <rect x="${m ? -65 : -48}" y="-20" width="${m ? 69 : 51}" height="40" rx="6" class="plain"/>
+  ${icon('ct', m ? -30 : -23, 0, 43)}
+  <g id="action-lens"><circle cx="${m ? 16 : 15}" cy="-4" r="15" fill="#fff" fill-opacity=".7" stroke="#8059a5" stroke-width="2"/><path d="M27 7l13 13" class="action-line"/></g>
+</g>
+<g id="action-reasoning">
+  <g id="evidence-left"><rect x="${m ? -97 : -67}" y="-20" width="${m ? 52 : 39}" height="40" rx="5" class="plain"/>
+  <path d="M${m ? -86 : -60} -11h${m ? 30 : 24}M${m ? -86 : -60} 0h${m ? 19 : 14}M${m ? -86 : -60} 11h${m ? 30 : 24}" class="action-line"/></g>
+  <g id="evidence-right"><rect x="${m ? 45 : 28}" y="-20" width="${m ? 52 : 39}" height="40" rx="5" class="plain"/>
+  <path d="M${m ? 56 : 35} -11h${m ? 30 : 24}M${m ? 56 : 35} 0h${m ? 19 : 14}M${m ? 56 : 35} 11h${m ? 30 : 24}" class="action-line"/></g>
+  <g id="evidence-conflict"><path d="M-6-8L6 8M6-8L-6 8" class="cross"/></g>
+  <g id="evidence-joined"><path d="M${m ? -41 : -24} 0H-14M14 0H${m ? 41 : 24}" class="action-line"/><circle r="12" class="action-accent"/>${check}</g>
+</g>
+<g id="action-differential">
+  <title>Compare the feature profiles of candidate explanations A and B.</title>
+  <g id="comparison-left"><rect x="${m ? -94 : -66}" y="-20" width="${m ? 72 : 48}" height="40" rx="5" class="plain"/>
+    ${text(m ? -58 : -42, -3, 'A', 'action-label')}<path d="M${m ? -83 : -58} 6h${m ? 50 : 32}M${m ? -83 : -58} 14h${m ? 30 : 19}" class="action-line"/></g>
+  <g id="comparison-right"><rect x="${m ? 22 : 18}" y="-20" width="${m ? 72 : 48}" height="40" rx="5" class="plain"/>
+    ${text(m ? 58 : 42, -3, 'B', 'action-label')}<path d="M${m ? 33 : 26} 6h${m ? 30 : 19}M${m ? 33 : 26} 14h${m ? 50 : 32}" class="action-line"/></g>
+  <g id="comparison-guide"><path d="M${m ? -94 : -66} 3H${m ? 94 : 66}M${m ? -94 : -66} 17H${m ? 94 : 66}" fill="none" stroke="#8059a5" stroke-width="1.6" stroke-dasharray="4 4"/>
+  <path d="M-12 0H12M-12 0l5-5M-12 0l5 5M12 0l-5-5M12 0l-5 5" class="action-line"/></g>
+</g>
+<g id="action-knowledge">
+  <g id="rule-placeholder"><rect x="${m ? -97 : -67}" y="-20" width="${m ? 89 : 63}" height="40" rx="5" class="plain action-dash"/>${text(m ? -52 : -35, 7, '?', 'action-label')}</g>
+  <g id="rule-category"><rect x="${m ? -97 : -67}" y="-20" width="${m ? 89 : 63}" height="40" rx="5" class="action-cue"/>${text(m ? -52 : -35, 7, 'Rule', 'action-label')}</g>
+  <path d="M${m ? 0 : 3} 0H${m ? 46 : 34}" class="action-line action-dash"/>
+  <circle cx="${m ? 72 : 51}" cy="0" r="20" class="plain"/>
+  <g id="rule-linked"><path d="M${m ? 0 : 3} 0H${m ? 50 : 31}" class="action-line"/><g transform="translate(${m ? 72 : 51} 0)">${check}</g></g>
+</g>
+</g>
 <g id="error-codebook">
+<rect x="${book.x - 5}" y="${book.y - (m ? 24 : 18)}" width="${book.w + 10}" height="${m ? 39 : 28}" class="local-region"/>
 ${text(book.x, book.y, 'Fixed error codebook', 'book-title', 'start')}${text(book.x + book.w, book.y, m ? '20 subtypes' : '4 families · 20 subtypes', 'small', 'end')}
 ${families.map((family, i) => {
   const x = book.x + i * (cellW + book.gap), center = x + cellW / 2;
-  return `<g id="error-family-${i}"><rect id="error-card-${i}" x="${x}" y="${book.cellY}" width="${cellW}" height="${book.cellH}" rx="7" class="family-card"/>
+  return `<g id="error-family-${i}" class="family-control" data-case="${i}" role="button" tabindex="0" aria-pressed="${i === 0}" aria-label="Play Case ${i + 1}: ${errorScenarios[i].name}"><title>Play Case ${i + 1}: ${errorScenarios[i].name} (${errorScenarios[i].code})</title><rect id="error-card-${i}" x="${x}" y="${book.cellY}" width="${cellW}" height="${book.cellH}" rx="7" class="family-card"/>
     ${family.title.map((s, j) => text(center, book.cellY + (m ? 29 : 24) + j * (m ? 26 : 20), s, 'family-name')).join('')}
     ${family.operation.map((s, j) => text(center, book.cellY + (m ? 88 : 72) + j * (m ? 22 : 17), m && i === 2 ? 'Compare' : s, 'family-operation')).join('')}
     ${Array.from({ length: 5 }, (_, k) => `<circle id="subtype-${i}-${k}" cx="${center + (k - 2) * (m ? 13 : 10)}" cy="${book.cellY + book.cellH - 11}" r="${m ? 2.8 : 2.1}" class="subtype-dot"/>`).join('')}</g>`;
@@ -164,7 +237,7 @@ ${line('hint-path', c.hintPath, 'draw-violet', 'arrow-violet')}
 <g id="dataset" transform="translate(${dx} ${dy})">
 <rect x="${m ? -84 : -100}" y="${m ? -54 : -46}" width="${m ? 168 : 200}" height="${m ? 108 : 92}" rx="10" class="panel"/>
 ${[-1, 0, 1].map((offset, i) => `<g transform="translate(${offset * (m ? 49 : 60)} 0)"><rect x="${m ? -22 : -26}" y="${m ? -38 : -34}" width="${m ? 44 : 52}" height="${m ? 76 : 68}" rx="6" class="plain"/>${icon(['ct', 'histology', 'ecg'][i], 0, -4, m ? 40 : 46)}${text(0, m ? 30 : 26, (m ? ['CT', 'Hist.', 'ECG'] : ['CT', 'Tissue', 'ECG'])[i], m ? 'tag-text' : 'small')}</g>`).join('')}
-<g id="new-target" transform="translate(${m ? -49 : -60} 0)"><rect x="${m ? -22 : -26}" y="${m ? -38 : -34}" width="${m ? 44 : 52}" height="${m ? 76 : 68}" rx="6" class="active-target"/>${icon('ct', 0, -4, m ? 40 : 46)}<g transform="translate(0 ${m ? 27 : 24})">${check}</g></g>
+<g id="new-target" transform="translate(${m ? -49 : -60} 0)"><rect x="${m ? -22 : -26}" y="${m ? -38 : -34}" width="${m ? 44 : 52}" height="${m ? 76 : 68}" rx="6" class="active-target"/><use id="target-medical-icon" href="#medical-ct" x="${m ? -20 : -23}" y="${m ? -24 : -27}" width="${m ? 40 : 46}" height="${m ? 40 : 46}"/><g transform="translate(0 ${m ? 27 : 24})">${check}</g></g>
 </g>
 ${m ? text(...c.datasetLabel, 'Medical', 'title') + text(c.datasetLabel[0], c.datasetLabel[1] + 28, 'supervision', 'title') : text(...c.datasetLabel, 'Medical supervision', 'title')}
 ${text(dx, m ? 866 : 570, '≤1 target / question', 'small')}
@@ -182,10 +255,10 @@ ${text(map.x + 18, map.y + (m ? 29 : 25), 'Medical capability map', 'title', 'st
 ${mapRows}${text(map.x + map.w / 2, map.y + map.h - (m ? 16 : 15), 'Disease labels stay in planning.', 'small')}</g>
 ${line('return-path', c.returnPath, 'draw-violet', 'arrow-violet')}
 ${m ? '' : text(80, 365, 'Next training question', 'small', 'start')}
-<g id="repair-packet"><rect x="${m ? -10 : -16}" y="${m ? -12 : -18}" width="${m ? 20 : 32}" height="${m ? 24 : 36}" rx="4" class="active-target"/>${icon('ct', 0, m ? -1 : -2, m ? 18 : 28)}<path d="M4 6l3 3 5-6" class="check"/></g>
+<g id="repair-packet"><rect x="${m ? -10 : -16}" y="${m ? -12 : -18}" width="${m ? 20 : 32}" height="${m ? 24 : 36}" rx="4" class="active-target"/><use id="repair-packet-icon" href="#medical-ct" x="${m ? -9 : -14}" y="${m ? -10 : -16}" width="${m ? 18 : 28}" height="${m ? 18 : 28}"/><path d="M4 6l3 3 5-6" class="check"/></g>
 <circle id="learning-packet" r="5" class="marker-blue"/><circle id="base-packet" r="5" class="marker-blue"/>
 <circle id="feedback-packet" r="5" class="marker-violet"/>
-<g id="question-packet">${icon('histology', 0, 0, m ? 24 : 31)}</g>
+<g id="question-packet"><use id="question-packet-icon" href="#medical-histology" x="${m ? -12 : -15.5}" y="${m ? -12 : -15.5}" width="${m ? 24 : 31}" height="${m ? 24 : 31}"/></g>
 <circle id="rollback-packet" r="4" fill="#b58176"/>
 </svg>`;
 }
@@ -194,21 +267,26 @@ ${m ? '' : text(80, 365, 'Next training question', 'small', 'start')}
 const animationHost = document.getElementById('animation-canvas');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const narrowScreen = window.matchMedia('(max-width: 640px)');
-const duration = 16000;
+const caseDuration = 12000;
+const duration = caseDuration * errorScenarios.length;
+const stageSeeks = [2550, 5250, 8550, 10650];
 const stageTitles = [
-  'Locate the error in its medical context.',
-  'Keep the prefix. Repair the medical reasoning.',
-  'Screen the target. Evolve medical supervision.',
-  'Reassess capability. Shift the medical focus.',
+  'Medical error diagnosis',
+  'Knowledge-guided trajectory repair',
+  'Supervision update and model training',
+  'Capability assessment and question selection',
 ];
 const playButton = document.getElementById('play-animation');
 const stageButtons = [...document.querySelectorAll('[data-step]')];
 const stageTitle = document.getElementById('stage-title');
 const progressBar = document.getElementById('animation-progress');
+const caseStatus = document.getElementById('case-status');
+const caseSummary = document.getElementById('case-summary');
 let svg, elements, pathLengths, layout, playing = !reducedMotion.matches;
-let cursor = reducedMotion.matches ? 14200 : 0;
+let cursor = reducedMotion.matches ? stageSeeks[3] : 0;
 let lastFrame = null;
 let previousStage = -1;
+let mountedCase = -1;
 const clamp = x => Math.max(0, Math.min(1, x));
 const between = (t, start, end) => clamp((t - start) / (end - start));
 const ease = x => x * x * (3 - 2 * x);
@@ -231,29 +309,86 @@ function mountScene() {
   svg = animationHost.querySelector('svg');
   elements = Object.fromEntries([...svg.querySelectorAll('[id]')].map(el => [el.id, el]));
   pathLengths = Object.fromEntries([...svg.querySelectorAll('path[id]')].map(el => [el.id, el.getTotalLength()]));
+  mountedCase = -1;
+  previousStage = -1;
+  [...svg.querySelectorAll('[data-case]')].forEach((control, index) => {
+    control.addEventListener('click', () => selectCase(index));
+    control.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        selectCase(index);
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        const target = (index + (event.key === 'ArrowRight' ? 1 : 3)) % errorScenarios.length;
+        selectCase(target);
+        elements[`error-family-${target}`].focus();
+      }
+    });
+  });
   render(cursor);
   document.getElementById('animation-controls').hidden = false;
 }
 function render(ms) {
-  const t = Math.max(0, Math.min(duration - 1, ms));
+  const time = Math.max(0, Math.min(duration - 1, ms));
+  const caseIndex = Math.min(errorScenarios.length - 1, Math.floor(time / caseDuration));
+  const scenario = errorScenarios[caseIndex];
+  const localTime = time - caseIndex * caseDuration;
+  // Reuse the reviewed 16-second lifecycle at a compact 12-second case pace.
+  const t = localTime * 16000 / caseDuration;
   const phase = Math.min(3, Math.floor(t / 4000));
   const fresh = t >= 15400;
   const diagnosis = t >= 2950 && !fresh;
-  if (phase !== previousStage) {
+  const stageKey = caseIndex * 4 + phase;
+  if (mountedCase !== caseIndex) {
+    elements['diagnosis-path'].setAttribute('d', diagnosisRoute(layout, caseIndex));
+    pathLengths['diagnosis-path'] = elements['diagnosis-path'].getTotalLength();
+    elements['target-medical-icon'].setAttribute('href', `#medical-${scenario.icon}`);
+    elements['repair-packet-icon'].setAttribute('href', `#medical-${scenario.icon}`);
+    elements['question-packet-icon'].setAttribute('href', `#medical-${modalityIcons[scenario.next[0]]}`);
+    elements['new-target'].setAttribute('transform', `translate(${(scenario.tags[0] - 1) * (layout.mobile ? 49 : 60)} 0)`);
+    caseStatus.textContent = `Case ${caseIndex + 1}/4 · Schematic`;
+    caseSummary.textContent = `${scenario.code} · ${scenario.summary}`;
+    mountedCase = caseIndex;
+  }
+  if (stageKey !== previousStage) {
     stageTitle.textContent = stageTitles[phase];
     stageButtons.forEach((b, i) => b.setAttribute('aria-pressed', String(i === phase)));
-    previousStage = phase;
+    previousStage = stageKey;
   }
   animationHost.dataset.phase = String(phase);
-  animationHost.dataset.context = fresh ? 'histology-abdomen' : 'ct-thorax';
-  progressBar.style.transform = `scaleX(${t / duration})`;
-  opacity('question-ct', fresh ? 0 : 1);
-  opacity('question-histology', fresh ? 1 : 0);
-  elements['context-modality'].textContent = fresh ? 'Histology' : 'CT';
-  elements['context-anatomy'].textContent = fresh ? 'Abdomen' : 'Thorax';
+  animationHost.dataset.case = String(caseIndex);
+  animationHost.dataset.scenario = scenario.key;
+  animationHost.dataset.diagnosis = diagnosis ? scenario.code : '';
+  const context = fresh ? scenario.next : scenario.tags;
+  animationHost.dataset.context = `${modalityNames[context[0]]}-${anatomyNames[context[1]]}`.toLowerCase();
+  progressBar.style.transform = `scaleX(${localTime / caseDuration})`;
+  modalityIcons.forEach((name, index) => opacity(`question-${name}`, context[0] === index ? 1 : 0));
+  elements['context-modality'].textContent = modalityNames[context[0]];
+  elements['context-anatomy'].textContent = anatomyNames[context[1]];
   elements['student-model'].textContent = fresh ? 'Mₜ₊₁' : 'Mₜ';
   elements['student-model'].style.fontSize = fresh ? (layout.mobile ? '22px' : '21px') : '';
-  opacity('reinspection-ring', t >= 4300 && t < 6200 ? 1 : 0);
+  const recovery = ease(between(t, 4200, 6100));
+  opacity('reinspection-ring', caseIndex === 0 && t >= 4300 && t < 6200 ? 1 : 0);
+  opacity('case-action', fresh ? 0 : 1);
+  errorScenarios.forEach((entry, index) => {
+    opacity(`action-${entry.key}`, index === caseIndex ? 1 : 0);
+    elements[`error-family-${index}`].setAttribute('aria-pressed', String(index === caseIndex));
+    elements[`error-card-${index}`].setAttribute('class', `family-card${index === caseIndex ? ' family-selected' : ''}${diagnosis && index === caseIndex ? ' family-active' : ''}`);
+    for (let subtype = 0; subtype < 5; subtype++) {
+      elements[`subtype-${index}-${subtype}`].setAttribute('class', diagnosis && index === caseIndex && subtype === entry.subtype ? 'subtype-dot active-subtype' : 'subtype-dot');
+    }
+  });
+  elements['action-lens'].setAttribute('transform', `translate(${-recovery * (layout.mobile ? 38 : 28)} ${Math.sin(recovery * Math.PI) * -8})`);
+  elements['evidence-left'].setAttribute('transform', `translate(${recovery * (layout.mobile ? 13 : 5)} 0)`);
+  elements['evidence-right'].setAttribute('transform', `translate(${-recovery * (layout.mobile ? 13 : 5)} 0)`);
+  opacity('evidence-conflict', 1 - recovery);
+  opacity('evidence-joined', recovery);
+  opacity('comparison-guide', recovery);
+  elements['comparison-guide'].setAttribute('transform', `translate(0 ${-7 * (1 - recovery)})`);
+  opacity('rule-placeholder', 1 - recovery);
+  opacity('rule-category', recovery);
+  elements['rule-category'].setAttribute('transform', `translate(0 ${-12 * (1 - recovery)})`);
+  opacity('rule-linked', recovery);
   opacity('trace-past', fresh ? 0 : 1);
   opacity('trace-fresh', fresh ? 1 : 0);
   draw('prefix-path', between(t, 250, 1150));
@@ -264,13 +399,11 @@ function render(ms) {
   opacity('error-ring', t >= 2050 && t < 4400 ? 1 : 0);
   draw('diagnosis-path', between(t, 2100, 2950));
   opacity('diagnosis-path', t < 4250 ? 1 : 0);
-  elements['error-card-0'].setAttribute('class', diagnosis ? 'family-card family-active' : 'family-card');
-  elements['subtype-0-0'].setAttribute('class', diagnosis ? 'subtype-dot active-subtype' : 'subtype-dot');
   draw('rollback-path', between(t, 3300, 4550));
   opacity('rollback-path', t < 4800 ? 1 : 0);
   travel('rollback-packet', 'rollback-path', ease(between(t, 3300, 4550)), t > 3300 && t < 4550);
   opacity('safe-boundary', t >= 3300 && !fresh ? 1 : 0);
-  elements['hint-operation'].textContent = t >= 4000 && !fresh ? 'Reinspect the region' : 'Answer-free recovery cue';
+  elements['hint-operation'].textContent = t >= 4000 && !fresh ? scenario.cue : 'Answer-free recovery cue';
   elements['hint-box'].style.fill = t >= 4000 && t < 7900 ? '#f1eaf8' : '#fff';
   draw('hint-path', between(t, 4200, 5000));
   opacity('hint-path', t >= 4000 && t < 7600 ? 1 : 0);
@@ -296,7 +429,7 @@ function render(ms) {
   if (t < 12600) travel('feedback-packet', 'feedback-path', ease(between(t, 12000, 12600)), t >= 12000 && t < 12600);
   else travel('feedback-packet', 'selection-path', ease(between(t, 12600, 13400)), t >= 12600 && t < 13400);
   const focus = ease(between(t, 13300, 14200));
-  const initial = [0, 0, 0, 1], next = [1, 1, 1, 2];
+  const initial = scenario.tags, next = scenario.next;
   initial.forEach((start, row) => {
     const position = start + (next[row] - start) * focus;
     elements[`tag-focus-${row}`].setAttribute('x', String(layout.map.x + layout.map.chipX + position * (layout.map.chipW + layout.map.gap)));
@@ -320,6 +453,11 @@ function seek(ms) {
   cursor = Math.max(0, Math.min(duration - 1, Number(ms) || 0));
   render(cursor);
 }
+function selectCase(index, autoPlay = !reducedMotion.matches) {
+  const selected = Math.max(0, Math.min(errorScenarios.length - 1, Math.floor(Number(index) || 0)));
+  cursor = selected * caseDuration + (reducedMotion.matches ? stageSeeks[3] : 0);
+  setPlaying(Boolean(autoPlay) && !reducedMotion.matches);
+}
 function frame(now) {
   if (playing && !document.hidden) {
     if (lastFrame !== null) cursor = (cursor + Math.min(80, now - lastFrame)) % duration;
@@ -330,11 +468,11 @@ function frame(now) {
 }
 mountScene();
 playButton.addEventListener('click', () => setPlaying(!playing));
-stageButtons.forEach((b, i) => b.addEventListener('click', () => seek([3400, 7000, 11400, 14200][i])));
+stageButtons.forEach((b, i) => b.addEventListener('click', () => seek(Math.floor(cursor / caseDuration) * caseDuration + stageSeeks[i])));
 narrowScreen.addEventListener('change', () => { previousStage = -1; mountScene(); });
-reducedMotion.addEventListener('change', event => { if (event.matches) seek(14200); });
+reducedMotion.addEventListener('change', event => { if (event.matches) seek(Math.floor(cursor / caseDuration) * caseDuration + stageSeeks[3]); });
 document.addEventListener('visibilitychange', () => { lastFrame = null; });
-window.medEvoEvolution = { seek, play: () => setPlaying(true), pause: () => setPlaying(false), duration, get currentTime() { return cursor; } };
+window.medEvoEvolution = { seek, play: () => setPlaying(true), pause: () => setPlaying(false), selectCase, duration, caseDuration, cases: errorScenarios.map(({ code, name }) => ({ code, name })), get currentTime() { return cursor; }, get currentCase() { return Math.floor(cursor / caseDuration); } };
 window.requestAnimationFrame(frame);
 
 const copyButton = document.getElementById('copy-citation');
