@@ -14,7 +14,7 @@ const sceneLayouts = {
     diagnosisPath: 'M655 177V159', rollbackPath: 'M803 230V259H550V227', hintPath: 'M510 299C510 272 550 264 550 229',
     targetPath: 'M1014 293C1123 293 1133 473 1094 473', dataPath: 'M894 473H813', basePath: 'M777 418V437',
     modelPath: 'M741 473H645', feedbackPath: 'M636 555V534Q636 520 610 520V507',
-    selectionPath: 'M576 473H560Q552 473 552 487V519H543', returnPath: 'M164 432V379H22V188H29',
+    selectionPath: 'M576 473H560Q552 473 552 487V519H543', returnPath: 'M164 432V379H22V188H41',
     freshPath: 'M309 205H820',
     localTitle: [30, 28], outerTitle: [30, 413], prefixLabel: [447, 169], wrongLabel: [940, 243],
     suffixLabel: [760, 338], modelLabel: [692, 453], datasetLabel: [994, 546], mapSignal: [566, 548],
@@ -30,9 +30,9 @@ const sceneLayouts = {
     inputPath: 'M196 125H235', prefixPath: 'M305 125H503', wrongPath: 'M503 147V318',
     correctPath: 'M503 147C503 180 349 173 349 209V318',
     diagnosisPath: 'M529 224H565V388H95V430', rollbackPath: 'M529 318H548V172H529', hintPath: 'M460 596H594V172H529',
-    targetPath: 'M374 318C387 318 390 345 405 345H582V649Q582 675 550 675H486', dataPath: 'M402 730H336', basePath: 'M300 804V766',
+    targetPath: 'M374 318C387 318 390 345 405 345H582V647Q582 655 574 655H494Q486 655 486 663V675', dataPath: 'M402 730H336', basePath: 'M300 804V766',
     modelPath: 'M264 730H149', feedbackPath: 'M115 797V765',
-    selectionPath: 'M80 730H28V928H30', returnPath: 'M65 900H17V143H29',
+    selectionPath: 'M80 730H28V928H41', returnPath: 'M65 900H17V143H29',
     freshPath: 'M305 125H503V270',
     localTitle: [30, 28], outerTitle: [30, 672], prefixLabel: [447, 86], wrongLabel: [492, 369],
     suffixLabel: [158, 339], modelLabel: [209, 711], datasetLabel: [486, 809], mapSignal: [300, 880],
@@ -249,11 +249,11 @@ ${line('base-path', c.basePath, 'draw-blue', 'arrow-blue')}${line('model-path', 
 <g id="evaluation" transform="translate(${ex} ${ey})"><circle r="34" class="feedback-shape"/>${text(0, 7, m ? 'Eval.' : 'Assess', 'base')}${text(0, m ? 57 : -57, m ? 'Capability' : 'Capability assessment', m ? 'base' : 'small')}</g>
 <g id="feedback" transform="translate(${xy(c.feedback)})"><rect x="${m ? -85 : -76}" y="-28" width="${m ? 170 : 152}" height="56" rx="7" class="feedback-bank"/>
 ${text(0, m ? -4 : -5, 'Fixed feedback', m ? 'tag-text' : 'base')}${text(0, m ? 20 : 16, 'Assessment only', 'small')}</g>
-${line('feedback-path', c.feedbackPath, 'draw-violet', 'arrow-violet')}${line('selection-path', c.selectionPath, 'draw-violet', 'arrow-violet')}
+${line('feedback-path', c.feedbackPath, 'draw-violet', 'arrow-violet')}
 <g id="capability-map"><rect x="${map.x}" y="${map.y}" width="${map.w}" height="${map.h}" rx="10" class="panel"/>
 ${text(map.x + 18, map.y + (m ? 29 : 25), 'Medical capability map', 'title', 'start')}${text(map.x + map.w - 16, map.y + (m ? 28 : 24), 'Fixed axes', 'small', 'end')}
 ${mapRows}${text(map.x + map.w / 2, map.y + map.h - (m ? 16 : 15), 'Disease labels stay in planning.', 'small')}</g>
-${line('return-path', c.returnPath, 'draw-violet', 'arrow-violet')}
+${line('selection-path', c.selectionPath, 'draw-violet', 'arrow-violet')}${line('return-path', c.returnPath, 'draw-violet', 'arrow-violet')}
 ${m ? '' : text(80, 365, 'Next training question', 'small', 'start')}
 <g id="repair-packet"><rect x="${m ? -10 : -16}" y="${m ? -12 : -18}" width="${m ? 20 : 32}" height="${m ? 24 : 36}" rx="4" class="active-target"/><use id="repair-packet-icon" href="#medical-ct" x="${m ? -9 : -14}" y="${m ? -10 : -16}" width="${m ? 18 : 28}" height="${m ? 18 : 28}"/><path d="M4 6l3 3 5-6" class="check"/></g>
 <circle id="learning-packet" r="5" class="marker-blue"/><circle id="base-packet" r="5" class="marker-blue"/>
