@@ -14,7 +14,7 @@ const sceneLayouts = {
     diagnosisPath: 'M655 177V159', rollbackPath: 'M803 230V259H550V227', hintPath: 'M510 299C510 272 550 264 550 229',
     targetPath: 'M1014 293C1123 293 1133 473 1094 473', dataPath: 'M894 473H813', basePath: 'M777 418V437',
     modelPath: 'M741 473H645', feedbackPath: 'M636 555V534Q636 520 610 520V507',
-    selectionPath: 'M576 473H560Q552 473 552 487V519H543', returnPath: 'M164 432V379H22V188H41',
+    selectionPath: 'M576 473H560Q552 473 552 487V519H535', returnPath: 'M164 432V379H22V188H41',
     freshPath: 'M309 205H820',
     localTitle: [30, 28], outerTitle: [30, 413], prefixLabel: [447, 169], wrongLabel: [940, 243],
     suffixLabel: [760, 338], modelLabel: [692, 453], datasetLabel: [994, 546], mapSignal: [566, 548],
