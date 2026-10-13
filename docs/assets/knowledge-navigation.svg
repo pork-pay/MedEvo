@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 675" class="navigation-scene" role="group" aria-labelledby="scene-title scene-description" data-mobile="false">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 675" class="navigation-scene" role="img" aria-labelledby="scene-title scene-description" data-mobile="false">
 <title id="scene-title">Medical Knowledge Navigation in MedEvo</title>
-<desc id="scene-description">Four independent schematic cases illustrate visual misreading, conflicting evidence, missing differential comparison, and a missing diagnostic criterion. Case numbers do not denote training rounds or measured clinical results. A training question supplies observable clinical context. Each fresh failed rollout is diagnosed against four fixed error families, with five subtypes per family. A gold-blind auditor supplies an answer-free recovery cue. The same student keeps supported reasoning and regenerates only the suffix. Screened targets update medical supervision, with at most one active target per question. Each SFT round starts from the same M zero. A separate fixed feedback set supplies assessment signals, never training samples. Feedback shifts selection priorities across the fixed modality, anatomy, disease and difficulty axes. Answer-derived disease labels stay in planning metadata and never reach the auditor or hint. The next training question is diagnosed afresh. CT, histology and ECG contexts and highlighted priorities are illustrative. Select any error-family card to play its complete audit, repair, learning and reselection cycle.</desc>
+<desc id="scene-description">Four independent schematic cases illustrate visual misreading, conflicting evidence, missing differential comparison, and a missing diagnostic criterion. Case numbers do not denote training rounds or measured clinical results. A training question supplies observable clinical context. Each fresh failed rollout is diagnosed against four fixed error families, with five subtypes per family. A gold-blind auditor supplies an answer-free recovery cue. The same student keeps supported reasoning and regenerates only the suffix. Screened targets update medical supervision, with at most one active target per question. Each SFT round starts from the same M zero. A separate fixed feedback set supplies assessment signals, never training samples. Feedback shifts selection priorities across the fixed modality, anatomy, disease and difficulty axes. Answer-derived disease labels stay in planning metadata and never reach the auditor or hint. The next training question is diagnosed afresh. CT, histology and ECG contexts and highlighted priorities are illustrative.</desc>
 <style>
 .navigation-scene{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#fff;color:#23475d}
 .navigation-scene text{font-size:16px;fill:#294b62}
@@ -35,6 +35,7 @@
 .navigation-scene .action-accent{fill:#e6f3f5;stroke:#4d95a5;stroke-width:1.7}
 .navigation-scene .subtype-dot{fill:#b6c5d2}.navigation-scene .active-subtype{fill:#8059a5}
 .navigation-scene .tag-chip{fill:#fff;stroke:#d7e3ed;stroke-width:1.1}.navigation-scene .tag-focus{fill:#e5f1fa;stroke:#5999c0;stroke-width:1.8}
+.navigation-scene .tag-focus-next{fill:#efe9f7;stroke:#916ab3;stroke-width:1.8}
 .navigation-scene .hint-shape{fill:#fff;stroke:#b8a7ca;stroke-width:1.5}.navigation-scene .sft{fill:#eaf4fb;stroke:#8aadc7;stroke-width:1.6}
 .navigation-scene .feedback-shape{fill:#f5f0f9;stroke:#ac93c2;stroke-width:1.4}.navigation-scene .feedback-bank{fill:#fbf9fd;stroke:#b49aca;stroke-width:1.4;stroke-dasharray:5 4}
 .navigation-scene .active-target{fill:#edf8f3;stroke:#6da797;stroke-width:1.5}.navigation-scene .ring{fill:none;stroke:#b97c70;stroke-width:1.8;stroke-dasharray:4 5}
@@ -42,135 +43,143 @@
 .navigation-scene .fresh-route{stroke:#a6bfce;stroke-dasharray:5 7}.navigation-scene .marker-blue{fill:#287db1}.navigation-scene .marker-violet{fill:#8059a5}
 </style>
 <defs>
-<marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#287db1" stroke-width="1.7"/></marker><marker id="arrow-violet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#8059a5" stroke-width="1.7"/></marker><marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#b58176" stroke-width="1.7"/></marker>
-<symbol id="medical-ct" viewBox="0 0 64 64"><ellipse cx="32" cy="32" rx="28" ry="25" fill="#eff5fa" stroke="#7ca3bc" stroke-width="1.6"/><path d="M27 14C19 13 11 24 13 38C15 49 24 50 28 42C31 34 27 23 27 14ZM37 14C45 13 53 24 51 38C49 49 40 50 36 42C33 34 37 23 37 14Z" fill="#aac9dc" stroke="#638eaa" stroke-width="1.3"/><path d="M32 14V27M32 25L25 31M32 25L39 31" fill="none" stroke="#e7f1f8" stroke-width="2.4" stroke-linecap="round"/><circle cx="32" cy="47" r="4" fill="#e0eaf2" stroke="#819fb4" stroke-width="1.2"/></symbol>
-<symbol id="medical-histology" viewBox="0 0 64 64"><rect x="4" y="5" width="56" height="54" rx="8" fill="#fbf1f6" stroke="#bc99ba" stroke-width="1.5"/><g fill="#efd6e8" stroke="#b585b0" stroke-width="1.2"><ellipse cx="17" cy="18" rx="8" ry="7"/><ellipse cx="40" cy="16" rx="10" ry="7"/><ellipse cx="29" cy="32" rx="10" ry="8"/><ellipse cx="50" cy="36" rx="7" ry="9"/><ellipse cx="13" cy="44" rx="7" ry="8"/><ellipse cx="35" cy="49" rx="9" ry="6"/></g><g fill="#9674a5"><circle cx="18" cy="18" r="2.5"/><circle cx="39" cy="16" r="3"/><circle cx="28" cy="32" r="3"/><circle cx="50" cy="35" r="2.4"/><circle cx="13" cy="44" r="2.4"/><circle cx="34" cy="49" r="2.5"/></g></symbol>
-<symbol id="medical-ecg" viewBox="0 0 64 64"><rect x="4" y="5" width="56" height="54" rx="7" fill="#f0f7fa" stroke="#88acbd" stroke-width="1.5"/><path d="M5 20H59M5 33H59M5 46H59M18 6V58M32 6V58M46 6V58" fill="none" stroke="#d5e5ec" stroke-width="1"/><path d="M8 35H16L20 30L24 35H28L32 18L37 49L42 30L46 35H56" fill="none" stroke="#3a879f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#287db1" stroke-width="1.7"></path></marker><marker id="arrow-violet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#8059a5" stroke-width="1.7"></path></marker><marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#b58176" stroke-width="1.7"></path></marker>
+<symbol id="medical-ct" viewBox="0 0 64 64"><ellipse cx="32" cy="32" rx="28" ry="25" fill="#eff5fa" stroke="#7ca3bc" stroke-width="1.6"></ellipse><path d="M27 14C19 13 11 24 13 38C15 49 24 50 28 42C31 34 27 23 27 14ZM37 14C45 13 53 24 51 38C49 49 40 50 36 42C33 34 37 23 37 14Z" fill="#aac9dc" stroke="#638eaa" stroke-width="1.3"></path><path d="M32 14V27M32 25L25 31M32 25L39 31" fill="none" stroke="#e7f1f8" stroke-width="2.4" stroke-linecap="round"></path><circle cx="32" cy="47" r="4" fill="#e0eaf2" stroke="#819fb4" stroke-width="1.2"></circle></symbol>
+<symbol id="medical-histology" viewBox="0 0 64 64"><rect x="4" y="5" width="56" height="54" rx="8" fill="#fbf1f6" stroke="#bc99ba" stroke-width="1.5"></rect><g fill="#efd6e8" stroke="#b585b0" stroke-width="1.2"><ellipse cx="17" cy="18" rx="8" ry="7"></ellipse><ellipse cx="40" cy="16" rx="10" ry="7"></ellipse><ellipse cx="29" cy="32" rx="10" ry="8"></ellipse><ellipse cx="50" cy="36" rx="7" ry="9"></ellipse><ellipse cx="13" cy="44" rx="7" ry="8"></ellipse><ellipse cx="35" cy="49" rx="9" ry="6"></ellipse></g><g fill="#9674a5"><circle cx="18" cy="18" r="2.5"></circle><circle cx="39" cy="16" r="3"></circle><circle cx="28" cy="32" r="3"></circle><circle cx="50" cy="35" r="2.4"></circle><circle cx="13" cy="44" r="2.4"></circle><circle cx="34" cy="49" r="2.5"></circle></g></symbol>
+<symbol id="medical-ecg" viewBox="0 0 64 64"><rect x="4" y="5" width="56" height="54" rx="7" fill="#f0f7fa" stroke="#88acbd" stroke-width="1.5"></rect><path d="M5 20H59M5 33H59M5 46H59M18 6V58M32 6V58M46 6V58" fill="none" stroke="#d5e5ec" stroke-width="1"></path><path d="M8 35H16L20 30L24 35H28L32 18L37 49L42 30L46 35H56" fill="none" stroke="#3a879f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
 </defs>
-<rect width="1160" height="389" class="local-region"/>
-<rect y="389" width="1160" height="286" class="supervision-region"/>
+<rect width="1160" height="389" class="local-region"></rect>
+<rect y="389" width="1160" height="286" class="supervision-region"></rect>
 <text x="30" y="28" class="section-label" text-anchor="start">LOCAL MEDICAL REPAIR</text>
-<path d="M30 389H1130" class="divider"/>
+<path d="M30 389H1130" class="divider"></path>
 <text x="30" y="413" class="section-label outer-label" text-anchor="start">EVOLVING SUPERVISION</text>
-<g id="outer-tracks">
-<path id="target-track" d="M1014 293C1123 293 1133 473 1094 473" class="route " fill="none" opacity="1"/><path id="data-track" d="M894 473H813" class="route " fill="none"/><path id="model-track" d="M741 473H645" class="route " fill="none"/><path id="feedback-track" d="M636 555V534Q636 520 610 520V507" class="route " fill="none"/><path id="selection-track" d="M576 473H560Q552 473 552 487V519H535" class="route " fill="none"/><path id="return-track" d="M164 432V379H22V188H41" class="route " fill="none"/><path id="base-track" d="M777 418V437" class="route " fill="none"/>
+<g id="outer-tracks" opacity="0" aria-hidden="true">
+<path id="target-track" d="M1014 293C1123 293 1133 473 1094 473" class="route " fill="none"></path><path id="data-track" d="M894 473H813" class="route " fill="none"></path><path id="model-track" d="M741 473H645" class="route " fill="none"></path><path id="feedback-track" d="M636 555V534Q636 520 610 520V507" class="route " fill="none"></path><path id="selection-track" d="M576 473H560Q552 473 552 487V519H535" class="route " fill="none"></path><path id="return-track" d="M30 473H17V188H41" class="route " fill="none"></path><path id="base-track" d="M777 418V437" class="route " fill="none"></path>
 </g>
 <g id="question" transform="translate(114 188)">
-<rect x="-84" y="-77" width="168" height="154" rx="10" class="plain"/>
+<rect x="-84" y="-77" width="168" height="154" rx="10" class="plain"></rect>
 <text x="0" y="-52" class="small" text-anchor="middle">Training question</text>
-<g id="question-ct" opacity="1"><use href="#medical-ct" x="-33" y="-48" width="66" height="66"/></g>
-<g id="question-histology" opacity="0"><use href="#medical-histology" x="-33" y="-48" width="66" height="66"/></g>
-<g id="question-ecg" opacity="0"><use href="#medical-ecg" x="-33" y="-48" width="66" height="66"/></g>
+<g id="question-content" opacity="1">
+<g id="question-ct" opacity="1"><use href="#medical-ct" x="-33" y="-48" width="66" height="66"></use></g>
+<g id="question-histology" opacity="0"><use href="#medical-histology" x="-33" y="-48" width="66" height="66"></use></g>
+<g id="question-ecg" opacity="0"><use href="#medical-ecg" x="-33" y="-48" width="66" height="66"></use></g>
 <text id="context-modality" x="0" y="37" class="base" text-anchor="middle">CT</text>
 <text id="context-anatomy" x="0" y="59" class="base" text-anchor="middle">Thorax</text>
-<circle id="reinspection-ring" cx="12" cy="-13" r="12" class="ring" opacity="0"/>
-</g>
+<circle id="reinspection-ring" cx="12" cy="-13" r="12" class="ring" opacity="0"></circle>
+</g></g>
 <text x="114" y="287" class="small" text-anchor="middle">Observable context</text>
-<path id="input-path" d="M198 205H241" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)"/>
-<g id="student" transform="translate(275 205)"><circle r="33" fill="#287db1"/><text id="student-model" x="0" y="8" class="white" text-anchor="middle">Mₜ</text><text x="0" y="53" class="small" text-anchor="middle">Student</text></g>
+<path id="input-path" d="M198 205H241" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)"></path>
+<g id="student" transform="translate(275 205)"><circle r="33" fill="#287db1"></circle><text id="student-model" x="0" y="8" class="white" text-anchor="middle" opacity="1">Mₜ</text><text x="0" y="53" class="small" text-anchor="middle">Student</text></g>
 <g id="trace-past" opacity="1">
-<path id="prefix-path" d="M309 205H502" class="route draw-violet" fill="none" style="stroke-dasharray: 193, 193; stroke-dashoffset: 0;"/>
-<g id="prefix-0" transform="translate(393 205)" opacity="1"><circle r="22" class="node good"/><path d="M-7 0l5 5 10-11" class="check"/></g><g id="prefix-1" transform="translate(502 205)" opacity="1"><circle r="22" class="node good"/><path d="M-7 0l5 5 10-11" class="check"/></g>
-<text x="447" y="169" class="good-label" text-anchor="middle">Supported prefix</text>
-<g id="failed-branch" opacity="0.13"><path id="wrong-path" d="M524 205H803" class="route draw-red" fill="none" style="stroke-dasharray: 279, 279; stroke-dashoffset: 0;"/><g id="wrong-0" transform="translate(655 205)"><circle r="22" class="node bad"/><path d="M-6-6L6 6M6-6L-6 6" class="cross"/></g><g id="wrong-1" transform="translate(803 205)"><circle r="22" class="node bad"/><path d="M-6-6L6 6M6-6L-6 6" class="cross"/></g></g>
-<text id="failed-label" x="940" y="243" class="bad-label" text-anchor="middle">Discarded suffix</text>
-<circle id="error-ring" cx="655" cy="205" r="30" class="ring" opacity="0"/>
-<path id="diagnosis-path" d="M655 177V173H652.375V159" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 20.625, 20.625; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);" opacity="0"/>
-<path id="rollback-path" d="M803 230V259H550V227" class="route rollback" fill="none" data-arrow="arrow-red" marker-end="url(#arrow-red)" style="stroke-dasharray: 314, 314; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-red&quot;);" opacity="0"/>
-<path id="safe-boundary" d="M550 180v112" class="boundary" opacity="1"/>
-<g id="new-branch" opacity="1"><path id="correct-path" d="M524 205C576 205 576 293 639 293H987" class="route draw-blue" fill="none" style="stroke-dasharray: 500.174, 500.174; stroke-dashoffset: 0;"/><g id="corrected-0" transform="translate(685 293)" opacity="1"><circle r="22" class="node repaired"/><path d="M-7 0l5 5 10-11" class="check"/></g><g id="corrected-1" transform="translate(831 293)" opacity="1"><circle r="22" class="node repaired"/><path d="M-7 0l5 5 10-11" class="check"/></g><g id="corrected-2" transform="translate(987 293)" opacity="1"><circle r="22" class="node repaired"/><g id="screen-check" opacity="1"><path d="M-7 0l5 5 10-11" class="check"/></g></g></g>
-<text x="760" y="338" class="repair-label" text-anchor="middle">Same student · new suffix</text>
-<text id="target-status-label" x="987" y="336" class="small" text-anchor="middle">Screened target</text>
+<g id="prefix-group" opacity="1">
+<path id="prefix-path" d="M309 205H502" class="route draw-violet" fill="none" style="stroke-dasharray: 193, 193; stroke-dashoffset: 0;" opacity="1"></path>
+<g id="prefix-0" transform="translate(393 205)" opacity="1"><circle r="22" class="node good"></circle><path d="M-7 0l5 5 10-11" class="check"></path></g><g id="prefix-1" transform="translate(502 205)" opacity="1"><circle r="22" class="node good"></circle><path d="M-7 0l5 5 10-11" class="check"></path></g>
+<text id="prefix-label" x="447" y="169" class="good-label" text-anchor="middle" opacity="1">Supported prefix</text></g>
+<g id="failed-branch" opacity="0.13"><path id="wrong-path" d="M524 205H803" class="route draw-red" fill="none" style="stroke-dasharray: 279, 279; stroke-dashoffset: 0;" opacity="1"></path><g id="wrong-0" transform="translate(655 205)" opacity="1"><circle r="22" class="node bad"></circle><path d="M-6-6L6 6M6-6L-6 6" class="cross"></path></g><g id="wrong-1" transform="translate(803 205)" opacity="1"><circle r="22" class="node bad"></circle><path d="M-6-6L6 6M6-6L-6 6" class="cross"></path></g></g>
+<text id="failed-label" x="940" y="243" class="bad-label" text-anchor="middle" opacity="1">Discarded suffix</text>
+<circle id="error-ring" cx="655" cy="205" r="30" class="ring" opacity="0"></circle>
+<path id="diagnosis-path" d="M655 177V173H652.375V159" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 20.625, 20.625; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);" opacity="0"></path>
+<path id="rollback-path" d="M803 230V259H550V227" class="route rollback" fill="none" data-arrow="arrow-red" marker-end="url(#arrow-red)" style="stroke-dasharray: 314, 314; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-red&quot;);" opacity="0"></path>
+<path id="safe-boundary" d="M550 180v112" class="boundary" opacity="1"></path>
+<g id="new-branch" opacity="1"><path id="correct-path" d="M524 205C576 205 576 293 639 293H987" class="route draw-blue" fill="none" style="stroke-dasharray: 500.174, 500.174; stroke-dashoffset: 0;" opacity="1"></path><g id="corrected-0" transform="translate(685 293)" opacity="1"><circle r="22" class="node repaired"></circle><path d="M-7 0l5 5 10-11" class="check"></path></g><g id="corrected-1" transform="translate(831 293)" opacity="1"><circle r="22" class="node repaired"></circle><path d="M-7 0l5 5 10-11" class="check"></path></g><g id="candidate-target" opacity="1"><g id="corrected-2" transform="translate(987 293)" opacity="1"><circle r="22" class="node repaired"></circle><g id="screen-check" opacity="1"><path d="M-7 0l5 5 10-11" class="check"></path></g></g><text id="target-status-label" x="987" y="336" class="small" text-anchor="middle">Screened target</text></g></g>
+<g id="repair-caption" opacity="1"><text x="760" y="338" class="repair-label" text-anchor="middle">Same student · new suffix</text></g>
 </g>
-<g id="trace-fresh" opacity="0"><path id="fresh-path" d="M309 205H820" class="route fresh-route" fill="none"/><g id="fresh-result" transform="translate(849 205)"><circle r="22" class="node "/><text x="0" y="8" class="title" text-anchor="middle">?</text></g>
+<g id="trace-fresh" opacity="0"><path id="fresh-path" d="M309 205H820" class="route fresh-route" fill="none"></path><g id="fresh-result" transform="translate(849 205)"><circle r="22" class="node "></circle><text x="0" y="8" class="title" text-anchor="middle">?</text></g>
 <text x="447" y="169" class="good-label" text-anchor="middle">Fresh rollout</text><text x="940" y="243" class="small" text-anchor="middle">Diagnose the new rollout independently</text></g>
-<g id="case-action" transform="translate(290 329)" opacity="1">
+<g id="case-action" opacity="1" transform="translate(290 329)">
 <g id="action-visual" opacity="1">
-  <rect x="-48" y="-20" width="51" height="40" rx="6" class="plain"/>
-  <use href="#medical-ct" x="-44.5" y="-21.5" width="43" height="43"/>
-  <g id="action-lens" transform="translate(-28 -9.797174393178826e-16)"><circle cx="15" cy="-4" r="15" fill="#fff" fill-opacity=".7" stroke="#8059a5" stroke-width="2"/><path d="M27 7l13 13" class="action-line"/></g>
+  <rect x="-48" y="-20" width="51" height="40" rx="6" class="plain"></rect>
+  <use href="#medical-ct" x="-44.5" y="-21.5" width="43" height="43"></use>
+  <g id="action-lens" transform="translate(-28 -9.797174393178826e-16)"><circle cx="15" cy="-4" r="15" fill="#fff" fill-opacity=".7" stroke="#8059a5" stroke-width="2"></circle><path d="M27 7l13 13" class="action-line"></path></g>
 </g>
 <g id="action-reasoning" opacity="0">
-  <g id="evidence-left" transform="translate(5 0)"><rect x="-67" y="-20" width="39" height="40" rx="5" class="plain"/>
-  <path d="M-60 -11h24M-60 0h14M-60 11h24" class="action-line"/></g>
-  <g id="evidence-right" transform="translate(-5 0)"><rect x="28" y="-20" width="39" height="40" rx="5" class="plain"/>
-  <path d="M35 -11h24M35 0h14M35 11h24" class="action-line"/></g>
-  <g id="evidence-conflict" opacity="0"><path d="M-6-8L6 8M6-8L-6 8" class="cross"/></g>
-  <g id="evidence-joined" opacity="1"><path d="M-24 0H-14M14 0H24" class="action-line"/><circle r="12" class="action-accent"/><path d="M-7 0l5 5 10-11" class="check"/></g>
+  <g id="evidence-left" transform="translate(5 0)"><rect x="-67" y="-20" width="39" height="40" rx="5" class="plain"></rect>
+  <path d="M-60 -11h24M-60 0h14M-60 11h24" class="action-line"></path></g>
+  <g id="evidence-right" transform="translate(-5 0)"><rect x="28" y="-20" width="39" height="40" rx="5" class="plain"></rect>
+  <path d="M35 -11h24M35 0h14M35 11h24" class="action-line"></path></g>
+  <g id="evidence-conflict" opacity="0"><path d="M-6-8L6 8M6-8L-6 8" class="cross"></path></g>
+  <g id="evidence-joined" opacity="1"><path d="M-24 0H-14M14 0H24" class="action-line"></path><circle r="12" class="action-accent"></circle><path d="M-7 0l5 5 10-11" class="check"></path></g>
 </g>
 <g id="action-differential" opacity="0">
   <title>Compare the feature profiles of candidate explanations A and B.</title>
-  <g id="comparison-left"><rect x="-66" y="-20" width="48" height="40" rx="5" class="plain"/>
-    <text x="-42" y="-3" class="action-label" text-anchor="middle">A</text><path d="M-58 6h32M-58 14h19" class="action-line"/></g>
-  <g id="comparison-right"><rect x="18" y="-20" width="48" height="40" rx="5" class="plain"/>
-    <text x="42" y="-3" class="action-label" text-anchor="middle">B</text><path d="M26 6h19M26 14h32" class="action-line"/></g>
-  <g id="comparison-guide" opacity="1" transform="translate(0 0)"><path d="M-66 3H66M-66 17H66" fill="none" stroke="#8059a5" stroke-width="1.6" stroke-dasharray="4 4"/>
-  <path d="M-12 0H12M-12 0l5-5M-12 0l5 5M12 0l-5-5M12 0l-5 5" class="action-line"/></g>
+  <g id="comparison-left"><rect x="-66" y="-20" width="48" height="40" rx="5" class="plain"></rect>
+    <text x="-42" y="-3" class="action-label" text-anchor="middle">A</text><path d="M-58 6h32M-58 14h19" class="action-line"></path></g>
+  <g id="comparison-right"><rect x="18" y="-20" width="48" height="40" rx="5" class="plain"></rect>
+    <text x="42" y="-3" class="action-label" text-anchor="middle">B</text><path d="M26 6h19M26 14h32" class="action-line"></path></g>
+  <g id="comparison-guide" opacity="1" transform="translate(0 0)"><path d="M-66 3H66M-66 17H66" fill="none" stroke="#8059a5" stroke-width="1.6" stroke-dasharray="4 4"></path>
+  <path d="M-12 0H12M-12 0l5-5M-12 0l5 5M12 0l-5-5M12 0l-5 5" class="action-line"></path></g>
 </g>
 <g id="action-knowledge" opacity="0">
-  <g id="rule-placeholder" opacity="0"><rect x="-67" y="-20" width="63" height="40" rx="5" class="plain action-dash"/><text x="-35" y="7" class="action-label" text-anchor="middle">?</text></g>
-  <g id="rule-category" opacity="1" transform="translate(0 0)"><rect x="-67" y="-20" width="63" height="40" rx="5" class="action-cue"/><text x="-35" y="7" class="action-label" text-anchor="middle">Rule</text></g>
-  <path d="M3 0H34" class="action-line action-dash"/>
-  <circle cx="51" cy="0" r="20" class="plain"/>
-  <g id="rule-linked" opacity="1"><path d="M3 0H31" class="action-line"/><g transform="translate(51 0)"><path d="M-7 0l5 5 10-11" class="check"/></g></g>
+  <g id="rule-placeholder" opacity="0"><rect x="-67" y="-20" width="63" height="40" rx="5" class="plain action-dash"></rect><text x="-35" y="7" class="action-label" text-anchor="middle">?</text></g>
+  <g id="rule-category" opacity="1" transform="translate(0 0)"><rect x="-67" y="-20" width="63" height="40" rx="5" class="action-cue"></rect><text x="-35" y="7" class="action-label" text-anchor="middle">Rule</text></g>
+  <path d="M3 0H34" class="action-line action-dash"></path>
+  <circle cx="51" cy="0" r="20" class="plain"></circle>
+  <g id="rule-linked" opacity="1"><path d="M3 0H31" class="action-line"></path><g transform="translate(51 0)"><path d="M-7 0l5 5 10-11" class="check"></path></g></g>
 </g>
 </g>
 <g id="error-codebook">
-<rect x="583" y="16" width="546" height="28" class="local-region"/>
+<rect x="583" y="16" width="546" height="28" class="local-region"></rect>
 <text x="588" y="34" class="book-title" text-anchor="start">Fixed error codebook</text><text x="1124" y="34" class="small" text-anchor="end">4 families · 20 subtypes</text>
-<g id="error-family-0" class="family-control" data-case="0" role="button" tabindex="0" aria-pressed="true" aria-label="Play Case 1: Visual misreading"><title>Play Case 1: Visual misreading (V1)</title><rect id="error-card-0" x="588" y="59" width="128.75" height="99" rx="7" class="family-card family-selected family-active"/>
+<g id="error-family-0" class="family-control" data-case="0" aria-pressed="true" aria-label="Play case 1: visual misreading"><title>Play case 1: visual misreading (V1)</title><rect id="error-card-0" x="588" y="59" width="128.75" height="99" rx="7" class="family-card family-selected"></rect><rect id="diagnosis-highlight-0" x="588" y="59" width="128.75" height="99" rx="7" class="family-active" opacity="1" pointer-events="none"></rect>
     <text x="652.375" y="83" class="family-name" text-anchor="middle">Visual</text><text x="652.375" y="103" class="family-name" text-anchor="middle">misreading</text>
     <text x="652.375" y="131" class="family-operation" text-anchor="middle">Reinspect</text>
-    <circle id="subtype-0-0" cx="632.375" cy="147" r="2.1" class="subtype-dot active-subtype"/><circle id="subtype-0-1" cx="642.375" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-0-2" cx="652.375" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-0-3" cx="662.375" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-0-4" cx="672.375" cy="147" r="2.1" class="subtype-dot"/></g><g id="error-family-1" class="family-control" data-case="1" role="button" tabindex="0" aria-pressed="false" aria-label="Play Case 2: Reasoning error"><title>Play Case 2: Reasoning error (R2)</title><rect id="error-card-1" x="723.75" y="59" width="128.75" height="99" rx="7" class="family-card"/>
+    <circle id="subtype-0-0" cx="632.375" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-0-1" cx="642.375" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-0-2" cx="652.375" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-0-3" cx="662.375" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-0-4" cx="672.375" cy="147" r="2.1" class="subtype-dot"></circle><circle id="active-subtype-0" cx="632.375" cy="147" r="2.1" class="active-subtype" opacity="1" pointer-events="none"></circle></g><g id="error-family-1" class="family-control" data-case="1" aria-pressed="false" aria-label="Play case 2: reasoning error"><title>Play case 2: reasoning error (R2)</title><rect id="error-card-1" x="723.75" y="59" width="128.75" height="99" rx="7" class="family-card"></rect><rect id="diagnosis-highlight-1" x="723.75" y="59" width="128.75" height="99" rx="7" class="family-active" opacity="0" pointer-events="none"></rect>
     <text x="788.125" y="83" class="family-name" text-anchor="middle">Reasoning</text><text x="788.125" y="103" class="family-name" text-anchor="middle">error</text>
     <text x="788.125" y="131" class="family-operation" text-anchor="middle">Reconcile</text>
-    <circle id="subtype-1-0" cx="768.125" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-1-1" cx="778.125" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-1-2" cx="788.125" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-1-3" cx="798.125" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-1-4" cx="808.125" cy="147" r="2.1" class="subtype-dot"/></g><g id="error-family-2" class="family-control" data-case="2" role="button" tabindex="0" aria-pressed="false" aria-label="Play Case 3: Differential diagnosis error"><title>Play Case 3: Differential diagnosis error (D2)</title><rect id="error-card-2" x="859.5" y="59" width="128.75" height="99" rx="7" class="family-card"/>
+    <circle id="subtype-1-0" cx="768.125" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-1-1" cx="778.125" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-1-2" cx="788.125" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-1-3" cx="798.125" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-1-4" cx="808.125" cy="147" r="2.1" class="subtype-dot"></circle><circle id="active-subtype-1" cx="778.125" cy="147" r="2.1" class="active-subtype" opacity="0" pointer-events="none"></circle></g><g id="error-family-2" class="family-control" data-case="2" aria-pressed="false" aria-label="Play case 3: differential diagnosis error"><title>Play case 3: differential diagnosis error (D2)</title><rect id="error-card-2" x="859.5" y="59" width="128.75" height="99" rx="7" class="family-card"></rect><rect id="diagnosis-highlight-2" x="859.5" y="59" width="128.75" height="99" rx="7" class="family-active" opacity="0" pointer-events="none"></rect>
     <text x="923.875" y="83" class="family-name" text-anchor="middle">Differential</text><text x="923.875" y="103" class="family-name" text-anchor="middle">diagnosis</text>
     <text x="923.875" y="131" class="family-operation" text-anchor="middle">Compare features</text>
-    <circle id="subtype-2-0" cx="903.875" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-2-1" cx="913.875" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-2-2" cx="923.875" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-2-3" cx="933.875" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-2-4" cx="943.875" cy="147" r="2.1" class="subtype-dot"/></g><g id="error-family-3" class="family-control" data-case="3" role="button" tabindex="0" aria-pressed="false" aria-label="Play Case 4: Knowledge gap"><title>Play Case 4: Knowledge gap (K2)</title><rect id="error-card-3" x="995.25" y="59" width="128.75" height="99" rx="7" class="family-card"/>
+    <circle id="subtype-2-0" cx="903.875" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-2-1" cx="913.875" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-2-2" cx="923.875" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-2-3" cx="933.875" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-2-4" cx="943.875" cy="147" r="2.1" class="subtype-dot"></circle><circle id="active-subtype-2" cx="913.875" cy="147" r="2.1" class="active-subtype" opacity="0" pointer-events="none"></circle></g><g id="error-family-3" class="family-control" data-case="3" aria-pressed="false" aria-label="Play case 4: knowledge gap"><title>Play case 4: knowledge gap (K2)</title><rect id="error-card-3" x="995.25" y="59" width="128.75" height="99" rx="7" class="family-card"></rect><rect id="diagnosis-highlight-3" x="995.25" y="59" width="128.75" height="99" rx="7" class="family-active" opacity="0" pointer-events="none"></rect>
     <text x="1059.625" y="83" class="family-name" text-anchor="middle">Knowledge</text><text x="1059.625" y="103" class="family-name" text-anchor="middle">gap</text>
     <text x="1059.625" y="131" class="family-operation" text-anchor="middle">Cue a rule</text>
-    <circle id="subtype-3-0" cx="1039.625" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-3-1" cx="1049.625" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-3-2" cx="1059.625" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-3-3" cx="1069.625" cy="147" r="2.1" class="subtype-dot"/><circle id="subtype-3-4" cx="1079.625" cy="147" r="2.1" class="subtype-dot"/></g>
+    <circle id="subtype-3-0" cx="1039.625" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-3-1" cx="1049.625" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-3-2" cx="1059.625" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-3-3" cx="1069.625" cy="147" r="2.1" class="subtype-dot"></circle><circle id="subtype-3-4" cx="1079.625" cy="147" r="2.1" class="subtype-dot"></circle><circle id="active-subtype-3" cx="1049.625" cy="147" r="2.1" class="active-subtype" opacity="0" pointer-events="none"></circle></g>
 </g>
-<g id="hint" transform="translate(510 320)"><rect id="hint-box" x="-116" y="-20" width="232" height="40" rx="7" class="hint-shape" style="fill: rgb(255, 255, 255);"/>
+<g id="hint" opacity="1" transform="translate(510 320)"><rect id="hint-box" x="-116" y="-20" width="232" height="40" rx="7" class="hint-shape" style="fill: rgb(255, 255, 255);"></rect>
 <text id="hint-operation" x="0" y="5" class="base" text-anchor="middle">Reinspect the region</text><text x="0" y="40" class="small" text-anchor="middle">Gold-blind auditor</text></g>
-<path id="hint-path" d="M510 299C510 272 550 264 550 229" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 83.2143, 83.2143; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);" opacity="0"/>
+<path id="hint-path" d="M510 299C510 272 550 264 550 229" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 83.2143, 83.2143; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);" opacity="0"></path>
+<g id="dataset-stage" opacity="1">
 <g id="dataset" transform="translate(994 473)">
-<rect x="-100" y="-46" width="200" height="92" rx="10" class="panel"/>
-<g transform="translate(-60 0)"><rect x="-26" y="-34" width="52" height="68" rx="6" class="plain"/><use href="#medical-ct" x="-23" y="-27" width="46" height="46"/><text x="0" y="26" class="small" text-anchor="middle">CT</text></g><g transform="translate(0 0)"><rect x="-26" y="-34" width="52" height="68" rx="6" class="plain"/><use href="#medical-histology" x="-23" y="-27" width="46" height="46"/><text x="0" y="26" class="small" text-anchor="middle">Tissue</text></g><g transform="translate(60 0)"><rect x="-26" y="-34" width="52" height="68" rx="6" class="plain"/><use href="#medical-ecg" x="-23" y="-27" width="46" height="46"/><text x="0" y="26" class="small" text-anchor="middle">ECG</text></g>
-<g id="new-target" transform="translate(-60 0)" opacity="1"><rect x="-26" y="-34" width="52" height="68" rx="6" class="active-target"/><use id="target-medical-icon" href="#medical-ct" x="-23" y="-27" width="46" height="46"/><g transform="translate(0 24)"><path d="M-7 0l5 5 10-11" class="check"/></g></g>
+<rect x="-100" y="-46" width="200" height="92" rx="10" class="panel"></rect>
+<g transform="translate(-60 0)"><rect x="-26" y="-34" width="52" height="68" rx="6" class="plain"></rect><use href="#medical-ct" x="-23" y="-27" width="46" height="46"></use><text x="0" y="26" class="small" text-anchor="middle">CT</text></g><g transform="translate(0 0)"><rect x="-26" y="-34" width="52" height="68" rx="6" class="plain"></rect><use href="#medical-histology" x="-23" y="-27" width="46" height="46"></use><text x="0" y="26" class="small" text-anchor="middle">Tissue</text></g><g transform="translate(60 0)"><rect x="-26" y="-34" width="52" height="68" rx="6" class="plain"></rect><use href="#medical-ecg" x="-23" y="-27" width="46" height="46"></use><text x="0" y="26" class="small" text-anchor="middle">ECG</text></g>
+<g id="new-target" transform="translate(-60 0)" opacity="1"><rect x="-26" y="-34" width="52" height="68" rx="6" class="active-target"></rect><use id="target-medical-icon" href="#medical-ct" x="-23" y="-27" width="46" height="46"></use><g transform="translate(0 24)"><path d="M-7 0l5 5 10-11" class="check"></path></g></g>
 </g>
 <text x="994" y="546" class="title" text-anchor="middle">Medical supervision</text>
-<text x="994" y="570" class="small" text-anchor="middle">≤1 target / question</text>
-<path id="target-path" d="M1014 293C1123 293 1133 473 1094 473" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)" opacity="1" style="stroke-dasharray: 241.407, 241.407; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-blue&quot;);"/><path id="data-path" d="M894 473H813" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)" style="stroke-dasharray: 81, 81; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-blue&quot;);"/>
-<text x="885.5" y="453" class="base" text-anchor="middle">Dₜ₊₁</text>
-<g id="training" transform="translate(777 473)"><circle r="35" class="sft"/><text x="0" y="7" class="title" text-anchor="middle">SFT</text></g>
-<g id="base-model" transform="translate(777 399)"><rect x="-67" y="-19" width="134" height="38" rx="6" class="plain"/><text x="0" y="5" class="base" text-anchor="middle">Same base M₀</text></g>
-<path id="base-path" d="M777 418V437" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)" style="stroke-dasharray: 19, 19; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-blue&quot;);"/><path id="model-path" d="M741 473H645" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)" style="stroke-dasharray: 96, 96; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-blue&quot;);"/><text x="692" y="453" class="base" text-anchor="middle">Mₜ₊₁</text>
-<g id="evaluation" transform="translate(610 473)"><circle r="34" class="feedback-shape"/><text x="0" y="7" class="base" text-anchor="middle">Assess</text><text x="0" y="-57" class="small" text-anchor="middle">Capability assessment</text></g>
-<g id="feedback" transform="translate(636 583)"><rect x="-76" y="-28" width="152" height="56" rx="7" class="feedback-bank"/>
-<text x="0" y="-5" class="base" text-anchor="middle">Fixed feedback</text><text x="0" y="16" class="small" text-anchor="middle">Assessment only</text></g>
-<path id="feedback-path" d="M636 555V534Q636 520 610 520V507" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 67.0444, 67.0444; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);"/>
-<g id="capability-map"><rect x="30" y="432" width="512" height="223" rx="10" class="panel"/>
+<text x="994" y="570" class="small" text-anchor="middle">≤1 target / question</text></g>
+<path id="target-path" d="M1014 293C1123 293 1133 473 1094 473" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)" style="stroke-dasharray: 241.407, 241.407; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-blue&quot;);" opacity="1"></path><path id="data-path" d="M894 473H813" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)" style="stroke-dasharray: 81, 81; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-blue&quot;);" opacity="1"></path>
+<text id="dataset-output-label" x="885.5" y="453" class="base" text-anchor="middle" opacity="1">Dₜ₊₁</text>
+<g id="training-stage" opacity="1">
+<g id="training" transform="translate(777 473)"><circle r="35" class="sft"></circle><text x="0" y="7" class="title" text-anchor="middle">SFT</text></g>
+<g id="base-model" transform="translate(777 399)"><rect x="-67" y="-19" width="134" height="38" rx="6" class="plain"></rect><text x="0" y="5" class="base" text-anchor="middle">Same base M₀</text></g>
+</g>
+<path id="base-path" d="M777 418V437" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)" style="stroke-dasharray: 19, 19; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-blue&quot;);" opacity="1"></path><path id="model-path" d="M741 473H645" class="route draw-blue" fill="none" data-arrow="arrow-blue" marker-end="url(#arrow-blue)" style="stroke-dasharray: 96, 96; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-blue&quot;);" opacity="1"></path><text id="model-output-label" x="692" y="453" class="base" text-anchor="middle" opacity="1">Mₜ₊₁</text>
+<g id="evaluation-stage" opacity="1"><g id="evaluation" transform="translate(610 473)"><circle r="34" class="feedback-shape"></circle><text x="0" y="7" class="base" text-anchor="middle">Assess</text><text x="0" y="-57" class="small" text-anchor="middle">Capability assessment</text></g></g>
+<g id="feedback-stage" opacity="1"><g id="feedback" transform="translate(636 583)"><rect x="-76" y="-28" width="152" height="56" rx="7" class="feedback-bank"></rect>
+<text x="0" y="-5" class="base" text-anchor="middle">Fixed feedback</text><text x="0" y="16" class="small" text-anchor="middle">Assessment only</text></g></g>
+<path id="feedback-path" d="M636 555V534Q636 520 610 520V507" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 67.0444, 67.0444; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);" opacity="1"></path>
+<g id="capability-map"><rect x="30" y="432" width="512" height="223" rx="10" class="panel"></rect>
 <text x="48" y="457" class="title" text-anchor="start">Medical capability map</text><text x="526" y="456" class="small" text-anchor="end">Fixed axes</text>
 <g class="tag-row"><text x="48" y="494" class="axis-label" text-anchor="start">Modality</text>
-      <rect x="171" y="475" width="105" height="28" rx="5" class="tag-chip"/><rect x="285" y="475" width="105" height="28" rx="5" class="tag-chip"/><rect x="399" y="475" width="105" height="28" rx="5" class="tag-chip"/>
-      <rect id="tag-focus-0" x="285" y="475" width="105" height="28" rx="5" class="tag-focus" style="fill: rgb(239, 233, 247); stroke: rgb(145, 106, 179);"/>
+      <rect x="171" y="475" width="105" height="28" rx="5" class="tag-chip"></rect><rect x="285" y="475" width="105" height="28" rx="5" class="tag-chip"></rect><rect x="399" y="475" width="105" height="28" rx="5" class="tag-chip"></rect>
+      <rect id="tag-focus-0" x="171" y="475" width="105" height="28" rx="5" class="tag-focus" opacity="0"></rect>
+      <rect id="tag-focus-next-0" x="285" y="475" width="105" height="28" rx="5" class="tag-focus-next" opacity="1"></rect>
       <text x="223.5" y="494" class="tag-text" text-anchor="middle">CT</text><text x="337.5" y="494" class="tag-text" text-anchor="middle">Histology</text><text x="451.5" y="494" class="tag-text" text-anchor="middle">ECG</text></g><g class="tag-row"><text x="48" y="530" class="axis-label" text-anchor="start">Anatomy</text>
-      <rect x="171" y="511" width="105" height="28" rx="5" class="tag-chip"/><rect x="285" y="511" width="105" height="28" rx="5" class="tag-chip"/><rect x="399" y="511" width="105" height="28" rx="5" class="tag-chip"/>
-      <rect id="tag-focus-1" x="285" y="511" width="105" height="28" rx="5" class="tag-focus" style="fill: rgb(239, 233, 247); stroke: rgb(145, 106, 179);"/>
+      <rect x="171" y="511" width="105" height="28" rx="5" class="tag-chip"></rect><rect x="285" y="511" width="105" height="28" rx="5" class="tag-chip"></rect><rect x="399" y="511" width="105" height="28" rx="5" class="tag-chip"></rect>
+      <rect id="tag-focus-1" x="171" y="511" width="105" height="28" rx="5" class="tag-focus" opacity="0"></rect>
+      <rect id="tag-focus-next-1" x="285" y="511" width="105" height="28" rx="5" class="tag-focus-next" opacity="1"></rect>
       <text x="223.5" y="530" class="tag-text" text-anchor="middle">Thorax</text><text x="337.5" y="530" class="tag-text" text-anchor="middle">Abdomen</text><text x="451.5" y="530" class="tag-text" text-anchor="middle">Heart</text></g><g class="tag-row"><text x="48" y="566" class="axis-label" text-anchor="start">Disease</text>
-      <rect x="171" y="547" width="105" height="28" rx="5" class="tag-chip"/><rect x="285" y="547" width="105" height="28" rx="5" class="tag-chip"/><rect x="399" y="547" width="105" height="28" rx="5" class="tag-chip"/>
-      <rect id="tag-focus-2" x="285" y="547" width="105" height="28" rx="5" class="tag-focus" style="fill: rgb(239, 233, 247); stroke: rgb(145, 106, 179);"/>
+      <rect x="171" y="547" width="105" height="28" rx="5" class="tag-chip"></rect><rect x="285" y="547" width="105" height="28" rx="5" class="tag-chip"></rect><rect x="399" y="547" width="105" height="28" rx="5" class="tag-chip"></rect>
+      <rect id="tag-focus-2" x="171" y="547" width="105" height="28" rx="5" class="tag-focus" opacity="0"></rect>
+      <rect id="tag-focus-next-2" x="285" y="547" width="105" height="28" rx="5" class="tag-focus-next" opacity="1"></rect>
       <text x="223.5" y="566" class="tag-text" text-anchor="middle">Vascular</text><text x="337.5" y="566" class="tag-text" text-anchor="middle">Neoplasm</text><text x="451.5" y="566" class="tag-text" text-anchor="middle">Infection</text></g><g class="tag-row"><text x="48" y="602" class="axis-label" text-anchor="start">Difficulty</text>
-      <rect x="171" y="583" width="105" height="28" rx="5" class="tag-chip"/><rect x="285" y="583" width="105" height="28" rx="5" class="tag-chip"/><rect x="399" y="583" width="105" height="28" rx="5" class="tag-chip"/>
-      <rect id="tag-focus-3" x="399" y="583" width="105" height="28" rx="5" class="tag-focus" style="fill: rgb(239, 233, 247); stroke: rgb(145, 106, 179);"/>
+      <rect x="171" y="583" width="105" height="28" rx="5" class="tag-chip"></rect><rect x="285" y="583" width="105" height="28" rx="5" class="tag-chip"></rect><rect x="399" y="583" width="105" height="28" rx="5" class="tag-chip"></rect>
+      <rect id="tag-focus-3" x="285" y="583" width="105" height="28" rx="5" class="tag-focus" opacity="0"></rect>
+      <rect id="tag-focus-next-3" x="399" y="583" width="105" height="28" rx="5" class="tag-focus-next" opacity="1"></rect>
       <text x="223.5" y="602" class="tag-text" text-anchor="middle">L2</text><text x="337.5" y="602" class="tag-text" text-anchor="middle">L3</text><text x="451.5" y="602" class="tag-text" text-anchor="middle">L4</text></g><text x="286" y="640" class="small" text-anchor="middle">Disease labels stay in planning.</text></g>
-<path id="selection-path" d="M576 473H560Q552 473 552 487V519H535" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 83.1186, 83.1186; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);"/><path id="return-path" d="M164 432V379H22V188H41" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 405, 405; stroke-dashoffset: 405; marker-end: none;"/>
-<text x="80" y="365" class="small" text-anchor="start">Next training question</text>
-<g id="repair-packet" transform="translate(1094 473)" opacity="0"><rect x="-16" y="-18" width="32" height="36" rx="4" class="active-target"/><use id="repair-packet-icon" href="#medical-ct" x="-14" y="-16" width="28" height="28"/><path d="M4 6l3 3 5-6" class="check"/></g>
-<circle id="learning-packet" r="5" class="marker-blue" transform="translate(645 473)" opacity="0"/><circle id="base-packet" r="5" class="marker-blue" transform="translate(777 437)" opacity="0"/>
-<circle id="feedback-packet" r="5" class="marker-violet" transform="translate(535 519)" opacity="0"/>
-<g id="question-packet" transform="translate(164 432)" opacity="0"><use id="question-packet-icon" href="#medical-histology" x="-15.5" y="-15.5" width="31" height="31"/></g>
-<circle id="rollback-packet" r="4" fill="#b58176" transform="translate(550 227)" opacity="0"/>
+<path id="selection-path" d="M576 473H560Q552 473 552 487V519H535" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 83.1186, 83.1186; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);" opacity="1"></path><path id="return-path" d="M30 473H17V188H41" class="route draw-violet" fill="none" data-arrow="arrow-violet" marker-end="url(#arrow-violet)" style="stroke-dasharray: 322, 322; stroke-dashoffset: 0; marker-end: url(&quot;#arrow-violet&quot;);" opacity="1"></path>
+<g id="next-question-label" opacity="1"><text x="36" y="379" class="small" text-anchor="start">Next training question</text></g>
+<g id="repair-packet" transform="translate(1094 473)" opacity="0"><rect x="-16" y="-18" width="32" height="36" rx="4" class="active-target"></rect><use id="repair-packet-icon" href="#medical-ct" x="-14" y="-16" width="28" height="28"></use><path d="M4 6l3 3 5-6" class="check"></path></g>
+<circle id="learning-packet" r="5" class="marker-blue" transform="translate(645 473)" opacity="0"></circle><circle id="base-packet" r="5" class="marker-blue" transform="translate(777 437)" opacity="0"></circle>
+<circle id="feedback-packet" r="5" class="marker-violet" transform="translate(535 519)" opacity="0"></circle>
+<g id="question-packet" transform="translate(17.00000762939453 345.07843017578125)" opacity="0"><use id="question-packet-icon" href="#medical-histology" x="-15.5" y="-15.5" width="31" height="31"></use></g>
+<circle id="rollback-packet" r="4" fill="#b58176" transform="translate(550 227)" opacity="0"></circle>
 </svg>
