@@ -19,7 +19,7 @@ Jiajia&nbsp;Liu<sup>2</sup>, Jinming&nbsp;Cao<sup>2</sup>, Honglin&nbsp;Lin<sup>
 </div>
 
 <p align="center">
-  <a href="https://pork-pay.github.io/MedEvo/#method"><img src="docs/assets/knowledge-navigation.gif" width="100%" alt="MedEvo evolution loop — schematic"></a>
+  <a href="https://pork-pay.github.io/MedEvo/#method"><img src="docs/assets/knowledge-navigation.gif" width="100%" alt="MedEvo: medical tags guide reasoning repair and the next round of supervision — schematic"></a>
 </p>
 
 <p align="center">
