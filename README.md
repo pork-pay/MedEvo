@@ -4,7 +4,7 @@
 
 <h1><img src="docs/assets/logos/medevo.svg" height="36" align="middle" alt=""> MedEvo: Medical Reasoning Evolution<br>through Knowledge Navigation</h1>
 
-[![Paper](https://img.shields.io/badge/Paper-PDF-b31b1b.svg)](docs/assets/medevo.pdf)
+[![Paper](https://img.shields.io/badge/Paper-PDF-b31b1b.svg)](https://arxiv.org/pdf/2610.17690)
 [![Website](https://img.shields.io/badge/Website-MedEvo-287DB1.svg)](https://pork-pay.github.io/MedEvo/)
 [![GitHub stars](https://img.shields.io/github/stars/pork-pay/MedEvo?style=social)](https://github.com/pork-pay/MedEvo/stargazers)
 [![Benchmarks](https://img.shields.io/badge/Benchmarks-7-267F70.svg)](#results)
@@ -45,9 +45,9 @@ The mean gives each benchmark equal weight. MedXpertQA-MM is the multimodal trac
 
 | Item | Status |
 |:--|:--|
-| Paper (PDF) | ✅ [Available](docs/assets/medevo.pdf) |
+| Paper (PDF) | ✅ [Available](https://arxiv.org/pdf/2610.17690) |
 | Project page & interactive demo | ✅ [Available](https://pork-pay.github.io/MedEvo/) |
-| arXiv posting | 🔜 In progress |
+| arXiv | ✅ [2610.17690](https://arxiv.org/abs/2610.17690) |
 | Discovered programs | ⏳ Being prepared |
 | Full codebase | ⏳ Being prepared |
 | Reproduction scripts | ⏳ Being prepared |
@@ -59,13 +59,17 @@ Related project: [ECG-RSI](https://pork-pay.github.io/ECG-RSI/)
 
 ```bibtex
 @misc{wang2026medevo,
-  title  = {MedEvo: Medical Reasoning Evolution through Knowledge Navigation},
+  title  = {{MedEvo}: Medical Reasoning Evolution through Knowledge Navigation},
   author = {Wang, Xiaoliang and Chen, Zhuo and Zheng, Chuanyang and
             Wang, Quanbin and Lao, Jiangwei and Liu, Yingao and Liu, Jiajia and
             Cao, Jinming and Lin, Honglin and Lu, Zhihong and Jin, Hao and
             Wang, Jian and Wu, Lijun},
   year   = {2026},
-  url    = {https://pork-pay.github.io/MedEvo/}
+  eprint = {2610.17690},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.AI},
+  doi = {10.48550/arXiv.2610.17690},
+  url = {https://arxiv.org/abs/2610.17690}
 }
 ```
 
