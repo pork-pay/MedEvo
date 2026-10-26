@@ -4,6 +4,10 @@
 
 <h1><img src="docs/assets/logos/medevo.svg" height="36" align="middle" alt=""> MedEvo: Medical Reasoning Evolution<br>through Knowledge Navigation</h1>
 
+<p>Xiaoliang Wang, Zhuo Chen, Chuanyang Zheng, Quanbin Wang, Jiangwei Lao, Yingao Liu, Jiajia Liu, Jinming Cao, Honglin Lin, Zhihong Lu, Hao Jin, Jian Wang, Jinjie Gu, Lijun Wu</p>
+
+<p><strong>Correspondence:</strong> Lijun Wu · <a href="mailto:wlj554215@antgroup.com">wlj554215@antgroup.com</a></p>
+
 [![Paper](https://img.shields.io/badge/Paper-PDF-b31b1b.svg)](https://arxiv.org/pdf/2610.17690)
 [![Website](https://img.shields.io/badge/Website-MedEvo-287DB1.svg)](https://pork-pay.github.io/MedEvo/)
 [![GitHub stars](https://img.shields.io/github/stars/pork-pay/MedEvo?style=social)](https://github.com/pork-pay/MedEvo/stargazers)
@@ -63,7 +67,7 @@ Related project: [ECG-RSI](https://pork-pay.github.io/ECG-RSI/)
   author = {Wang, Xiaoliang and Chen, Zhuo and Zheng, Chuanyang and
             Wang, Quanbin and Lao, Jiangwei and Liu, Yingao and Liu, Jiajia and
             Cao, Jinming and Lin, Honglin and Lu, Zhihong and Jin, Hao and
-            Wang, Jian and Wu, Lijun},
+            Wang, Jian and Gu, Jinjie and Wu, Lijun},
   year   = {2026},
   eprint = {2610.17690},
   archivePrefix = {arXiv},
