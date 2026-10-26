@@ -128,3 +128,7 @@ main > section:not(.evolution) :is(p, h2, h3, h4, summary) { font-family: "Googl
 .animation-controls { flex-wrap: wrap; row-gap: 4px; }
 .case-control-hint { flex-basis: 100%; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; text-align: right; }
 @media (max-width: 640px) { .case-control-hint { font-size: 12px; text-align: center; } }
+
+.hero .correspondence { margin: 7px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.hero .correspondence a { white-space: nowrap; }
+@media (max-width: 640px) { .hero .correspondence { font-size: 12px; } }
